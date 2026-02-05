@@ -3,15 +3,18 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"generate": "nest generate --no-spec resource ",
-		"build": "tsc --build tsconfig.json",
+		"build": "tsc --build tsconfig.json && copyfiles -u 1 src/index.html src/manifest.json dist",
+		"watch": "yarn clean && concurrently \"tsc --build --watch tsconfig.json\" \"cpx 'src/index.html' dist -w\" \"cpx 'src/manifest.json' dist -w\"",
 		"clean": "rimraf dist && rimraf .cache && rimraf node_modules && rimraf tsconfig.tsbuildinfo",
-		"start:dev": "tsx --watch src/main.ts",
 		"typecheck": "yarn build"
 	},
 	"devDependencies": {
+		"@types/chrome": "^0.0.268",
 		"@types/node": "^22.15.3",
-		"rimraf": "^6.0.1",
+		"concurrently": "^9.1.0",
+		"copyfiles": "^2.4.1",
+		"cpx": "^1.5.0",
+		"rimraf": "^6.1.2",
 		"tsx": "^4.19.3",
 		"typescript": "^5.8.3"
 	}

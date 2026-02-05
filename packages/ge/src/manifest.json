@@ -1,0 +1,21 @@
+{
+    "name": "Hello Extensions",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["tabs", "webRequest"],
+    "host_permissions": ["*://*.kingdoms.com/*", "*://kingdoms.com/*"],
+    "action": {
+      "default_popup": "index.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["*://*.kingdoms.com/*", "*://kingdoms.com/*"],
+        "js": ["code/content.js"],
+        "run_at": "document_idle"
+      }
+    ],
+    "background": {
+      "service_worker": "code/background.js"
+    }
+  }

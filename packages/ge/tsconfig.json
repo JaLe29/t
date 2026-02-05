@@ -8,16 +8,14 @@
 	  "**/dist"
 	],
 	"compilerOptions": {
-		"sourceMap": true,
-		"inlineSources": true,
-
-		// Set `sourceRoot` to  `/` to strip the build path prefix from
-		// generated source code references. This allows Sentry to match source files
-		// relative to your source root folder.
-		"sourceRoot": "/",
+		"sourceMap": false,
+		"composite": false,
+		"declaration": false,
+		"declarationMap": false,
 		"outDir": "dist",
 		"rootDir": "src",
-		"baseUrl": "src"
+		"baseUrl": "src",
+		"types": ["chrome", "node"]
 	}
 }
 
