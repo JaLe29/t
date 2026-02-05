@@ -6,15 +6,127 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	if (changeInfo.status === "complete" && tab.url) {
 		updateBadge(tabId);
+		// Try to inject interceptors when page loads
+		if (tab.url.includes("kingdoms.com")) {
+			setTimeout(() => {
+				injectFetchInterceptor(tabId);
+			}, 1000);
+		}
 	}
 });
 
-// Listen for messages from content script
+// Listen for messages from content script and injected page
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	if (message.type === "KINGDOMS_PAGE_LOADED" && sender.tab?.id) {
 		updateBadge(sender.tab.id);
+		injectFetchInterceptor(sender.tab.id);
+	}
+	if (message.type === "API_RESPONSE") {
+		console.log("📥 API RESPONSE JSON:", {
+			url: message.url,
+			status: message.status,
+			data: message.data,
+		});
+	}
+	if (message.type === "API_RESPONSE_TEXT") {
+		console.log("📥 API RESPONSE TEXT:", {
+			url: message.url,
+			status: message.status,
+			data: message.data,
+		});
+	}
+	if (message.type === "API_RESPONSE_ERROR") {
+		console.error("❌ API RESPONSE ERROR:", message);
 	}
 });
+
+// Inject fetch interceptor into page context
+function injectFetchInterceptor(tabId: number) {
+	chrome.scripting.executeScript({
+		target: { tabId },
+		func: () => {
+			// Send to content script via custom event (page context has no chrome.runtime)
+			const sendResponse = (type: string, payload: object) => {
+				document.dispatchEvent(new CustomEvent("__EXT_API_RESPONSE__", { detail: { type, ...payload } }));
+			};
+			
+			// Intercept fetch
+			const originalFetch = window.fetch;
+			(window as any).fetch = async function(input: RequestInfo | URL, init?: RequestInit) {
+				const urlString = typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
+				
+				if (urlString.includes("/api")) {
+					const response = await originalFetch.call(this, input, init);
+					const clonedResponse = response.clone();
+					
+					(async () => {
+						try {
+							const text = await clonedResponse.text();
+							if (text) {
+								try {
+									const json = JSON.parse(text);
+									sendResponse("API_RESPONSE", {
+										url: urlString,
+										status: response.status,
+										data: json,
+									});
+								} catch {
+									sendResponse("API_RESPONSE_TEXT", {
+										url: urlString,
+										status: response.status,
+										data: text.substring(0, 500),
+									});
+								}
+							}
+						} catch (e) {
+							sendResponse("API_RESPONSE_ERROR", { url: urlString, error: String(e) });
+						}
+					})();
+					
+					return response;
+				}
+				
+				return originalFetch.call(this, input, init);
+			};
+			
+			// Intercept XMLHttpRequest
+			const originalXHROpen = XMLHttpRequest.prototype.open;
+			const originalXHRSend = XMLHttpRequest.prototype.send;
+			
+			(XMLHttpRequest.prototype as any).open = function(this: XMLHttpRequest, method: string, url: string | URL, async?: boolean) {
+				(this as any)._url = typeof url === "string" ? url : url.toString();
+				(this as any)._method = method;
+				return originalXHROpen.call(this, method, url, async ?? true);
+			};
+			
+			(XMLHttpRequest.prototype as any).send = function(this: XMLHttpRequest, body?: Document | XMLHttpRequestBodyInit | null) {
+				const xhr = this as any;
+				if (xhr._url && xhr._url.includes("/api")) {
+					this.addEventListener("load", function(this: XMLHttpRequest) {
+						try {
+							const json = JSON.parse(this.responseText);
+							sendResponse("API_RESPONSE", {
+								url: xhr._url,
+								status: this.status,
+								data: json,
+							});
+						} catch {
+							sendResponse("API_RESPONSE_TEXT", {
+								url: xhr._url,
+								status: this.status,
+								data: this.responseText.substring(0, 500),
+							});
+						}
+					});
+				}
+				return originalXHRSend.call(this, body as XMLHttpRequestBodyInit | null | undefined);
+			};
+		},
+		world: "MAIN",
+	}).catch((err) => {
+		console.error("❌ Error injecting interceptors:", err);
+	});
+}
 
 function updateBadge(tabId: number) {
 	chrome.tabs.get(tabId, (tab) => {
@@ -43,11 +155,19 @@ function decodeArrayBuffer(buffer: ArrayBuffer): string {
 	}
 }
 
+// Store request details for response matching
+const requestMap = new Map<string, { url: string; method: string }>();
+
 // Intercept and log only /api requests
 chrome.webRequest.onBeforeRequest.addListener(
 	(details) => {
 		// Filter only requests that contain /api in the path
 		if (details.url.includes("/api")) {
+			requestMap.set(details.requestId, {
+				url: details.url,
+				method: details.method,
+			});
+			
 			console.log("🌐 API REQUEST:", {
 				url: details.url,
 				method: details.method,
@@ -99,3 +219,6 @@ chrome.webRequest.onBeforeRequest.addListener(
 	},
 	["requestBody"]
 );
+
+// Note: In Manifest V3, getResponseBody is not available via webRequest API
+// Response logging is handled by fetch interceptor in content script
