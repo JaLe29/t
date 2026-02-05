@@ -1,0 +1,23 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"include": [
+		"../@types",
+		"src",
+	],
+	"exclude": [
+	  "**/dist"
+	],
+	"compilerOptions": {
+		"sourceMap": true,
+		"inlineSources": true,
+
+		// Set `sourceRoot` to  `/` to strip the build path prefix from
+		// generated source code references. This allows Sentry to match source files
+		// relative to your source root folder.
+		"sourceRoot": "/",
+		"outDir": "dist",
+		"rootDir": "src",
+		"baseUrl": "src"
+	}
+}
+

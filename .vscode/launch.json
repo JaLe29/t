@@ -1,0 +1,19 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Worker",
+			"type": "node",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"runtimeExecutable": "yarn",
+			"runtimeArgs": [
+				"workspace",
+				"@t/worker",
+				"run",
+				"start:dev",
+			],
+			"console": "integratedTerminal",
+		},
+	],
+}

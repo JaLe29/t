@@ -1,0 +1,20 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"include": [
+		"src",
+		"@types",
+		"../@types"
+	],
+	"compilerOptions": {
+		"outDir": "dist",
+		"rootDir": "src",
+		"tsBuildInfoFile": ".cache/typescript/ge.tsbuildinfo",
+		"baseUrl": "src",
+		"paths": {},
+		"strictPropertyInitialization": false,
+		"isolatedModules": false,
+		"types": [
+			"node"
+		]
+	},
+}

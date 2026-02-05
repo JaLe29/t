@@ -1,0 +1,32 @@
+.git
+.gitignore
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# Build artifacts (will be built inside Docker)
+dist/
+.cache/
+*.tsbuildinfo
+
+# Dependencies (will be installed inside Docker)
+node_modules/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test and coverage
+coverage/
+*.test.*
+*.spec.*
+
+# Documentation
+README.md
+*.md
+!packages/*/README.md
