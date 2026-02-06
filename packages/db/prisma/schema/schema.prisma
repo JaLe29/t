@@ -96,27 +96,27 @@ model Gameworld {
 }
 
 model TravianApiKeys {
-  id             String    @id @default(uuid())
-  apiKey         String?
-  privateApiKey  String?
-  gameworldId    String    @unique
-  gameworld      Gameworld @relation(fields: [gameworldId], references: [id], onDelete: Cascade)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id            String    @id @default(uuid())
+  apiKey        String?
+  privateApiKey String?
+  gameworldId   String    @unique
+  gameworld     Gameworld @relation(fields: [gameworldId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@index([gameworldId])
 }
 
 model ScrapeItem {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   lastUpdateTime Int? // Unix timestamp - čas posledního updatu dat
   date           Int? // Unix timestamp - datum dat
   landscapes     Json? // Mapování landscape ID na cesty k obrázkům
-  isDryRun       Boolean  @default(false) // Označuje, zda se jedná o testovací/dry-run scrape
+  isDryRun       Boolean   @default(false) // Označuje, zda se jedná o testovací/dry-run scrape
   gameworldId    String
   gameworld      Gameworld @relation(fields: [gameworldId], references: [id], onDelete: Cascade)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   // Relations
   players  Player[]
@@ -128,18 +128,18 @@ model ScrapeItem {
 }
 
 model Player {
-  id                 String      @id @default(uuid())
+  id                 String     @id @default(uuid())
   playerId           String // ID hráče z Travian API
   name               String
   tribeId            String?
   kingdomId          String?
-  treasures          Int         @default(0)
-  role               Int         @default(0)
+  treasures          Int        @default(0)
+  role               Int        @default(0)
   externalLoginToken String?
   scrapeItemId       String
-  scrapeItem         ScrapeItem  @relation(fields: [scrapeItemId], references: [id], onDelete: Cascade)
-  createdAt          DateTime    @default(now())
-  updatedAt          DateTime    @updatedAt
+  scrapeItem         ScrapeItem @relation(fields: [scrapeItemId], references: [id], onDelete: Cascade)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
 
   // Relations
   villages Village[]
@@ -172,18 +172,18 @@ model Village {
 }
 
 model MapCell {
-  id          String     @id @default(uuid())
-  cellId      String // ID buňky z Travian API
-  x           Int
-  y           Int
-  resType     String? // Typ zdrojů (může být "0" nebo číslo)
-  oasis       String? // Typ oázy (může být "0" nebo číslo)
-  landscape   String // ID landscape
-  kingdomId   Int       @default(0)
+  id           String     @id @default(uuid())
+  cellId       String // ID buňky z Travian API
+  x            Int
+  y            Int
+  resType      String? // Typ zdrojů (může být "0" nebo číslo)
+  oasis        String? // Typ oázy (může být "0" nebo číslo)
+  landscape    String // ID landscape
+  kingdomId    Int        @default(0)
   scrapeItemId String
   scrapeItem   ScrapeItem @relation(fields: [scrapeItemId], references: [id], onDelete: Cascade)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@unique([cellId, scrapeItemId])
   @@index([scrapeItemId])

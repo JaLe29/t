@@ -1,0 +1,23 @@
+{
+	"name": "@t/scripts",
+	"version": "1.0.0",
+	"license": "ISC",
+	"private": true,
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc --build tsconfig.build.json",
+		"clean": "rimraf dist && rimraf .cache",
+		"start:dev": "tsx --env-file=.env --watch src/index.ts"
+	},
+	"dependencies": {
+		"@t/backend-shared": "workspace:*",
+		"@t/db": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.1",
+		"rimraf": "^6.1.2",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3"
+	}
+}
