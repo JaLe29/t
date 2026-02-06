@@ -218,4 +218,124 @@ export const gameAccountRouter = t.router({
 
 			return { success: true };
 		}),
+	getUnits: t.procedure
+		.use(isAuthed)
+		.input(
+			z.object({
+				gameAccountId: z.string(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			// Find game account
+			const gameAccount = await ctx.prisma.gameAccount.findFirst({
+				where: {
+					id: input.gameAccountId,
+					userId: ctx.user.id,
+				},
+			});
+
+			if (!gameAccount || !gameAccount.gamePlayerId) {
+				throw new TRPCError({
+					code: 'NOT_FOUND',
+					message: 'Game account not found or player ID missing',
+				});
+			}
+
+			// Find latest scrape item for this gameworld
+			const lastScrapeItem = await ctx.prisma.scrapeItem.findFirst({
+				where: {
+					gameworldId: gameAccount.gameworldId,
+					isProcessed: true,
+					isDryRun: false,
+				},
+				orderBy: {
+					createdAt: 'desc',
+				},
+			});
+
+			if (!lastScrapeItem) {
+				return {
+					tribeId: null,
+					villages: [],
+				};
+			}
+
+			// Find player in latest scrape item
+			const player = await ctx.prisma.player.findFirst({
+				where: {
+					scrapeItemId: lastScrapeItem.id,
+					playerId: gameAccount.gamePlayerId,
+				},
+				select: {
+					id: true,
+					tribeId: true,
+				},
+			});
+
+			if (!player) {
+				return {
+					tribeId: null,
+					villages: [],
+				};
+			}
+
+			// Get all villages for this player in latest scrape item
+			const villages = await ctx.prisma.village.findMany({
+				where: {
+					playerId: player.id,
+				},
+				select: {
+					villageId: true,
+					name: true,
+					x: true,
+					y: true,
+					population: true,
+					isMainVillage: true,
+					isCity: true,
+				},
+			});
+
+			// Get latest unit records for each village
+			const villageIds = villages.map(v => v.villageId);
+			const unitRecords = await ctx.prisma.gameAccountUnitRecord.findMany({
+				where: {
+					gameAccountId: gameAccount.id,
+					villageId: {
+						in: villageIds,
+					},
+				},
+				orderBy: {
+					createdAt: 'desc',
+				},
+			});
+
+			// Group unit records by villageId and get the latest one for each village
+			const latestUnitRecords = new Map<string, typeof unitRecords[0]>();
+			for (const record of unitRecords) {
+				if (!latestUnitRecords.has(record.villageId)) {
+					latestUnitRecords.set(record.villageId, record);
+				}
+			}
+
+			// Combine villages with their units
+			const villagesWithUnits = villages.map(village => {
+				const unitRecord = latestUnitRecords.get(village.villageId);
+				return {
+					villageId: village.villageId,
+					name: village.name,
+					x: village.x,
+					y: village.y,
+					population: village.population,
+					isMainVillage: village.isMainVillage,
+					isCity: village.isCity,
+					units: unitRecord?.units || [],
+					unitsUpdatedAt: unitRecord?.updatedAt || null,
+				};
+			});
+
+			return {
+				tribeId: player.tribeId,
+				villages: villagesWithUnits,
+			};
+		}),
 });

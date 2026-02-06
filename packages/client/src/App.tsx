@@ -8,6 +8,7 @@ import { LoginPage } from './pages/LoginPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { RegisterPage } from './pages/RegisterPage';
 import { TokensPage } from './pages/TokensPage';
+import { UnitsPage } from './pages/UnitsPage';
 import { trpc, trpcClient } from './utils/trpc';
 
 const queryClient = new QueryClient({
@@ -57,6 +58,14 @@ export const App: React.FC = () => {
 			element: (
 				<AuthGuard>
 					<TokensPage />
+				</AuthGuard>
+			),
+		},
+		{
+			path: '/units',
+			element: (
+				<AuthGuard>
+					<UnitsPage />
 				</AuthGuard>
 			),
 		},
