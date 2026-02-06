@@ -58,7 +58,6 @@ export const tokenRouter = t.router({
 				token: token.token,
 				createdAt: token.createdAt,
 				updatedAt: token.updatedAt,
-				lastUsedAt: token.lastUsedAt,
 			};
 		}),
 
@@ -88,53 +87,6 @@ export const tokenRouter = t.router({
 			await ctx.prisma.token.delete({
 				where: {
 					id: input.id,
-				},
-			});
-
-			return { success: true };
-		}),
-
-	trackUsage: t.procedure
-		.use(isAuthed)
-		.input(
-			z.object({
-				tokenId: z.string().uuid(),
-				ipAddress: z.string().optional(),
-				userAgent: z.string().optional(),
-			}),
-		)
-		.mutation(async ({ ctx, input }) => {
-			// Verify token belongs to user
-			const token = await ctx.prisma.token.findFirst({
-				where: {
-					id: input.tokenId,
-					userId: ctx.user.id,
-				},
-			});
-
-			if (!token) {
-				throw new TRPCError({
-					code: 'NOT_FOUND',
-					message: 'Token not found',
-				});
-			}
-
-			// Create usage record
-			await ctx.prisma.tokenUsage.create({
-				data: {
-					tokenId: input.tokenId,
-					ipAddress: input.ipAddress || null,
-					userAgent: input.userAgent || null,
-				},
-			});
-
-			// Update lastUsedAt on token
-			await ctx.prisma.token.update({
-				where: {
-					id: input.tokenId,
-				},
-				data: {
-					lastUsedAt: new Date(),
 				},
 			});
 

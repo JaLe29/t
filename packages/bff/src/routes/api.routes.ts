@@ -14,7 +14,6 @@ const actionSchemas = {
 	'game.units.update': z.object({
 		action: z.literal('game.units.update'),
 		payload: z.object({
-			playerId: z.string().min(1),
 			villages: z.array(
 				z.object({
 					villageId: z.string().min(1),
@@ -82,7 +81,6 @@ export const registerApiRoutes = (fastifyServer: FastifyInstance, container: Awi
 					// Najít GameAccount podle gamePlayerId a userId
 					const gameAccount = await prisma.gameAccount.findFirst({
 						where: {
-							gamePlayerId: validated.payload.playerId,
 							userId: dbToken.userId,
 						},
 					});
@@ -96,7 +94,7 @@ export const registerApiRoutes = (fastifyServer: FastifyInstance, container: Awi
 					// Uložit všechny záznamy jednotek pomocí createMany
 					if (validated.payload.villages.length > 0) {
 						await prisma.gameAccountUnitRecord.createMany({
-							data: validated.payload.villages.map((village) => ({
+							data: validated.payload.villages.map(village => ({
 								gameAccountId: gameAccount.id,
 								villageId: village.villageId,
 								units: village.units,
