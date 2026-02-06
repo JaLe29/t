@@ -99,6 +99,7 @@ const main = async () => {
 				date: gameworldData.date,
 				landscapes: landscapes,
 				isDryRun: false,
+				isProcessed: false,
 			},
 		});
 
@@ -208,6 +209,14 @@ const main = async () => {
 		console.log(`Saved ${mapCells.length} map cells`);
 		// biome-ignore lint/suspicious/noConsole: progress logging
 		console.log('Data saved successfully!');
+
+		// Mark scrape as processed
+		await prisma.scrapeItem.update({
+			where: { id: scrapeItem.id },
+			data: { isProcessed: true },
+		});
+		// biome-ignore lint/suspicious/noConsole: progress logging
+		console.log('ScrapeItem marked as processed');
 	} finally {
 		await prisma?.$disconnect();
 	}

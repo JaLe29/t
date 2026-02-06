@@ -113,6 +113,7 @@ model ScrapeItem {
   date           Int? // Unix timestamp - datum dat
   landscapes     Json? // Mapování landscape ID na cesty k obrázkům
   isDryRun       Boolean   @default(false) // Označuje, zda se jedná o testovací/dry-run scrape
+  isProcessed    Boolean   @default(false) // Označuje, zda byl scrape dokončen
   gameworldId    String
   gameworld      Gameworld @relation(fields: [gameworldId], references: [id], onDelete: Cascade)
   createdAt      DateTime  @default(now())
@@ -125,6 +126,7 @@ model ScrapeItem {
   @@index([gameworldId])
   @@index([isDryRun])
   @@index([date])
+  @@index([isProcessed])
 }
 
 model Player {
