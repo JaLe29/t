@@ -32,13 +32,9 @@ class CollectionTroopsService {
 			}
 
 			if (typeof units === 'object') {
-				const objectKeys = Object.keys(units);
-				objectKeys.forEach(key => {
-					village[villageId]![Number.parseInt(key, 10) - 1]! += Number.parseInt(
-						(units as any)[key as any]!,
-						10,
-					);
-				});
+				for (const key in units) {
+					village[villageId]![Number.parseInt(key, 10) - 1]! += Number.parseInt((units as any)[key], 10);
+				}
 			}
 		}
 

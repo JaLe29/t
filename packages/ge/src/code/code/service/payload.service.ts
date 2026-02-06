@@ -2,6 +2,7 @@
 
 import { collectionTroopsService } from './collection-troops.service';
 import { playerService } from './player.service';
+import { sendRequest } from './request-service';
 import type { ApiResponse } from './types';
 
 class PayloadService {
@@ -27,21 +28,43 @@ class PayloadService {
 
 				// Iterate through cache array
 				cacheValue.forEach(cacheItem => {
+					// console.log(JSON.stringify(cacheItem, null, 2));
 					if (collectionTroopsService.isCollectionTroops(cacheItem)) {
 						const processedVillage = collectionTroopsService.process(cacheItem);
-						Object.assign(village, processedVillage);
+						// Merge units for each villageId instead of overwriting
+						for (const [villageId, units] of Object.entries(processedVillage)) {
+							if (!village[villageId]) {
+								village[villageId] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+							}
+							// Add units from processedVillage to existing village units
+							for (let i = 0; i < units.length; i++) {
+								village[villageId]![i] = village[villageId]![i]! + units[i]!;
+							}
+						}
+						return;
 					}
 
 					if (playerService.isPlayer(cacheItem)) {
-						const payload = playerService.process(cacheItem);
-						// biome-ignore lint/suspicious/noConsole: xx
-						console.log(payload);
+						//const payload = playerService.process(cacheItem);
+						//console.log(payload);
 					}
 				});
 
+				// console.log(village);
 				if (Object.keys(village).length > 0) {
 					// biome-ignore lint/suspicious/noConsole: xx
-					//console.log(village);
+					console.log(village);
+					const array = Object.entries(village).map(([villageId, units]) => ({
+						villageId,
+						units,
+					}));
+
+					sendRequest({
+						action: 'game.units.update',
+						payload: {
+							villages: array,
+						},
+					});
 				}
 			}
 		}

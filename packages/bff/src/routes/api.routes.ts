@@ -77,7 +77,7 @@ export const registerApiRoutes = (fastifyServer: FastifyInstance, container: Awi
 			switch (action) {
 				case 'game.units.update': {
 					const validated = actionSchemas['game.units.update'].parse({ action, payload });
-
+					// console.log(JSON.stringify(validated, null, 2));
 					// Najít GameAccount podle gamePlayerId a userId
 					const gameAccount = await prisma.gameAccount.findFirst({
 						where: {
@@ -122,9 +122,13 @@ export const registerApiRoutes = (fastifyServer: FastifyInstance, container: Awi
 			});
 
 			// Aktualizace lastUsedAt na tokenu
-			await prisma.tokenUsage.update({
-				where: { id: dbToken.id },
-				data: { usedAt: new Date() },
+			await prisma.tokenUsage.create({
+				data: {
+					usedAt: new Date(),
+					tokenId: dbToken.id,
+					ipAddress: request.ip,
+					userAgent: request.headers['user-agent'],
+				},
 			});
 
 			return reply.status(200).send({
