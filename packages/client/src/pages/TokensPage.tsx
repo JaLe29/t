@@ -191,7 +191,7 @@ export const TokensPage = () => {
 				message="Are you sure you want to delete this token? This action cannot be undone."
 				confirmText="Delete"
 				cancelText="Cancel"
-				variant="danger"
+				confirmVariant="danger"
 			/>
 			</div>
 		</Layout>

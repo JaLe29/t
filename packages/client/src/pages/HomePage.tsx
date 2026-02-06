@@ -24,7 +24,7 @@ export const HomePage = () => {
 							<div className="text-gray-600">Loading user...</div>
 						)}
 						
-						{meData && (
+						{meData && meData.user && (
 							<div className="space-y-4">
 								<div className="bg-gray-50 rounded-lg p-6">
 									<h2 className="text-2xl font-semibold text-gray-800 mb-4">User</h2>
