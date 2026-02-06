@@ -13,11 +13,13 @@ COPY ./yarn.lock													./
 COPY ./packages/bff 												./packages/bff
 COPY ./packages/client												./packages/client
 COPY ./packages/db													./packages/db
+COPY ./packages/backend-shared										./packages/backend-shared
 
 ENV DATABASE_URL=dockerbuildisempty
 
 RUN yarn install && \
 	yarn workspace @t/db prisma:generate && \
+	yarn workspace @t/backend-shared build && \
 	yarn workspace @t/client build && \
 	yarn workspace @t/bff build && \
 	yarn workspaces focus @t/bff --production
@@ -30,6 +32,9 @@ COPY --from=build /usr/app/package.json								./package.json
 
 COPY --from=build /usr/app/packages/bff/package.json				./packages/bff/package.json
 COPY --from=build /usr/app/packages/bff/dist						./packages/bff/dist
+
+COPY --from=build /usr/app/packages/backend-shared/dist				./packages/backend-shared/dist
+COPY --from=build /usr/app/packages/backend-shared/package.json		./packages/backend-shared/package.json
 
 COPY --from=build /usr/app/packages/client/dist						./packages/client/dist
 
