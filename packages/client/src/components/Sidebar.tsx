@@ -1,4 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useGameAccountStore } from '../stores/gameAccount.store';
+import { trpc } from '../utils/trpc';
+import { NationIcon } from './ui/NationIcon';
+import { useSession } from '../utils/auth';
 
 interface SidebarProps {
 	isOpen: boolean;
@@ -8,6 +13,58 @@ interface SidebarProps {
 
 export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 	const location = useLocation();
+	const { data: session } = useSession();
+	const [isGameAccountMenuOpen, setIsGameAccountMenuOpen] = useState(false);
+	const gameAccountMenuRef = useRef<HTMLDivElement>(null);
+
+	const { activeAccountId, setActiveAccountId } = useGameAccountStore();
+	const { data: accounts, isLoading: isLoadingAccounts } = trpc.gameAccount.list.useQuery(
+		undefined,
+		{
+			enabled: !!session,
+		},
+	);
+
+	// Close game account menu when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				gameAccountMenuRef.current &&
+				!gameAccountMenuRef.current.contains(event.target as Node)
+			) {
+				setIsGameAccountMenuOpen(false);
+			}
+		};
+
+		if (isGameAccountMenuOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isGameAccountMenuOpen]);
+
+	// Set active account from localStorage on mount if accounts are loaded
+	useEffect(() => {
+		if (accounts && accounts.length > 0 && !activeAccountId) {
+			const savedAccountId = localStorage.getItem('activeGameAccountId');
+			if (savedAccountId) {
+				const accountExists = accounts.some(acc => acc.id === savedAccountId);
+				if (accountExists) {
+					setActiveAccountId(savedAccountId);
+				} else {
+					// If saved account doesn't exist, set first account as active
+					setActiveAccountId(accounts[0]?.id || null);
+				}
+			} else {
+				// No saved account, set first account as active
+				setActiveAccountId(accounts[0]?.id || null);
+			}
+		}
+	}, [accounts, activeAccountId, setActiveAccountId]);
+
+	const activeAccount = accounts?.find(acc => acc.id === activeAccountId);
 
 	const isActive = (path: string) => location.pathname === path;
 
@@ -58,6 +115,115 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 				)}
 				{isOpen && (
 					<>
+						{/* Game Account Selector */}
+						{session && accounts && accounts.length > 0 && (
+							<div ref={gameAccountMenuRef} className="px-2 pt-4 pb-2 border-b border-gray-200">
+								<div className="relative">
+									<button
+										type="button"
+										onClick={() => setIsGameAccountMenuOpen(!isGameAccountMenuOpen)}
+										className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
+									>
+										{activeAccount && 'playerTribeId' in activeAccount && activeAccount.playerTribeId && (
+											<NationIcon tribeId={activeAccount.playerTribeId} size="sm" />
+										)}
+										<div className="flex-1 min-w-0 text-left">
+											<div className="text-sm font-medium text-gray-900 truncate">
+												{(() => {
+													if (!activeAccount) {
+														return 'Vyberte účet';
+													}
+													if (activeAccount.playerName) {
+														return `${activeAccount.gameworld.name} - ${activeAccount.playerName}`;
+													}
+													return activeAccount.gameworld.name;
+												})()}
+											</div>
+										</div>
+										<svg
+											className={`w-4 h-4 text-gray-600 transition-transform flex-shrink-0 ${
+												isGameAccountMenuOpen ? 'rotate-180' : ''
+											}`}
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+											role="img"
+											aria-label="Toggle game account menu"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M19 9l-7 7-7-7"
+											/>
+										</svg>
+									</button>
+
+									{/* Game Account Dropdown Menu */}
+									{isGameAccountMenuOpen && (
+										<div className="absolute left-0 right-0 mt-1 bg-glass-strong rounded-lg shadow-xl border border-gray-200 z-20 max-h-64 overflow-y-auto">
+											<div className="py-1">
+												<div className="px-4 py-2 border-b border-gray-200">
+													<p className="text-xs font-semibold text-gray-500 uppercase">Game Accounts</p>
+												</div>
+												{isLoadingAccounts && (
+													<div className="px-4 py-2 text-sm text-gray-500">Načítání...</div>
+												)}
+												{!isLoadingAccounts && accounts.length === 0 && (
+													<div className="px-4 py-2 text-sm text-gray-500">Žádné účty</div>
+												)}
+												{!isLoadingAccounts && accounts.length > 0 &&
+													accounts.map(account => (
+														<button
+															type="button"
+															key={account.id}
+															onClick={() => {
+																setActiveAccountId(account.id);
+																setIsGameAccountMenuOpen(false);
+															}}
+															className={`w-full text-left px-4 py-2 text-sm transition-colors flex items-center gap-2 ${
+																activeAccountId === account.id
+																	? 'bg-primary/10 text-primary font-medium'
+																	: 'text-gray-700 hover:bg-gray-100'
+															}`}
+														>
+															{'playerTribeId' in account && account.playerTribeId && (
+																<NationIcon tribeId={account.playerTribeId} size="sm" />
+															)}
+															<div className="flex-1 min-w-0">
+																<div className="font-medium truncate">{account.gameworld.name}</div>
+																{account.playerName && (
+																	<div className="text-xs text-gray-500 truncate">
+																		{account.playerName}
+																	</div>
+																)}
+															</div>
+															{activeAccountId === account.id && (
+																<svg
+																	className="w-4 h-4 text-primary flex-shrink-0"
+																	fill="none"
+																	stroke="currentColor"
+																	viewBox="0 0 24 24"
+																	role="img"
+																	aria-label="Aktivní účet"
+																>
+																	<path
+																		strokeLinecap="round"
+																		strokeLinejoin="round"
+																		strokeWidth={2}
+																		d="M5 13l4 4L19 7"
+																	/>
+																</svg>
+															)}
+														</button>
+													))}
+											</div>
+										</div>
+									)}
+								</div>
+							</div>
+						)}
+
 						{/* Navigation */}
 						<nav className="flex-1 overflow-y-auto py-4">
 							<div className="px-2 space-y-6">
