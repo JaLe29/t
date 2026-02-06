@@ -4,6 +4,7 @@ import type { CreateFastifyContextOptions, FastifyTRPCPluginOptions } from '@trp
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import { createAuth } from './auth';
 import { createDiContainer } from './container';
+import { registerApiRoutes } from './routes/api.routes';
 import { registerAuthRoutes } from './routes/auth.routes';
 import { Server } from './Server';
 import { createContext } from './trpc/context';
@@ -34,6 +35,9 @@ const start = async (): Promise<void> => {
 
 	// Register auth routes
 	registerAuthRoutes(fastifyServer, auth, prisma);
+
+	// Register API routes
+	registerApiRoutes(fastifyServer, container);
 
 	await server.register(fastifyTRPCPlugin, {
 		prefix: '/trpc',

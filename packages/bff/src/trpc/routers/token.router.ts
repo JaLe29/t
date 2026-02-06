@@ -26,10 +26,9 @@ export const tokenRouter = t.router({
 		return tokens.map(token => ({
 			id: token.id,
 			name: token.name,
-			token: token.token,
+			token: '***',
 			createdAt: token.createdAt,
 			updatedAt: token.updatedAt,
-			lastUsedAt: token.lastUsedAt,
 			lastUsage: token.usages[0] || null,
 		}));
 	}),

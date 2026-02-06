@@ -44,6 +44,7 @@ export class Server {
 					request.url.startsWith('/trpc') ||
 					request.url.startsWith('/ready') ||
 					request.url.startsWith('/api/auth') ||
+					request.url.startsWith('/api/') ||
 					request.url.startsWith('/image/') ||
 					request.url.startsWith('/seed')
 				) {
