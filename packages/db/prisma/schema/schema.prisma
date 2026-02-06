@@ -88,8 +88,105 @@ model Gameworld {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  // is game world active
-  isLive      Boolean
+  // Relations
+  scrapeItems ScrapeItem[]
+  apiKeys     TravianApiKeys?
 
   @@index([name])
+}
+
+model TravianApiKeys {
+  id             String    @id @default(uuid())
+  apiKey         String?
+  privateApiKey  String?
+  gameworldId    String    @unique
+  gameworld      Gameworld @relation(fields: [gameworldId], references: [id], onDelete: Cascade)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([gameworldId])
+}
+
+model ScrapeItem {
+  id             String   @id @default(uuid())
+  lastUpdateTime Int? // Unix timestamp - čas posledního updatu dat
+  date           Int? // Unix timestamp - datum dat
+  landscapes     Json? // Mapování landscape ID na cesty k obrázkům
+  isDryRun       Boolean  @default(false) // Označuje, zda se jedná o testovací/dry-run scrape
+  gameworldId    String
+  gameworld      Gameworld @relation(fields: [gameworldId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  players  Player[]
+  mapCells MapCell[]
+
+  @@index([gameworldId])
+  @@index([isDryRun])
+  @@index([date])
+}
+
+model Player {
+  id                 String      @id @default(uuid())
+  playerId           String // ID hráče z Travian API
+  name               String
+  tribeId            String?
+  kingdomId          String?
+  treasures          Int         @default(0)
+  role               Int         @default(0)
+  externalLoginToken String?
+  scrapeItemId       String
+  scrapeItem         ScrapeItem  @relation(fields: [scrapeItemId], references: [id], onDelete: Cascade)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  // Relations
+  villages Village[]
+
+  @@unique([playerId, scrapeItemId])
+  @@index([scrapeItemId])
+  @@index([name])
+  @@index([tribeId])
+  @@index([kingdomId])
+}
+
+model Village {
+  id            String   @id @default(uuid())
+  villageId     String // ID vesnice z Travian API
+  x             Int
+  y             Int
+  population    Int
+  name          String
+  isMainVillage Boolean  @default(false)
+  isCity        Boolean  @default(false)
+  playerId      String
+  player        Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([villageId, playerId])
+  @@index([playerId])
+  @@index([x, y])
+  @@index([name])
+}
+
+model MapCell {
+  id          String     @id @default(uuid())
+  cellId      String // ID buňky z Travian API
+  x           Int
+  y           Int
+  resType     String? // Typ zdrojů (může být "0" nebo číslo)
+  oasis       String? // Typ oázy (může být "0" nebo číslo)
+  landscape   String // ID landscape
+  kingdomId   Int       @default(0)
+  scrapeItemId String
+  scrapeItem   ScrapeItem @relation(fields: [scrapeItemId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@unique([cellId, scrapeItemId])
+  @@index([scrapeItemId])
+  @@index([x, y])
+  @@index([kingdomId])
 }
