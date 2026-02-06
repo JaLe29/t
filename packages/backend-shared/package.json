@@ -9,7 +9,6 @@
 		"build": "tsc --build tsconfig.build.json",
 		"clean": "rimraf dist"
 	},
-	"dependencies": {},
 	"devDependencies": {
 		"rimraf": "^6.0.1",
 		"typescript": "5.7.2"

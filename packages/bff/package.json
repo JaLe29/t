@@ -17,6 +17,7 @@
 		"@kubernetes/client-node": "^1.4.0",
 		"@prisma/adapter-pg": "^7.2.0",
 		"@prisma/client": "^7.2.0",
+		"@t/backend-shared": "workspace:*",
 		"@t/db": "workspace:*",
 		"@trpc/server": "^10.45.2",
 		"awilix": "^12.0.5",

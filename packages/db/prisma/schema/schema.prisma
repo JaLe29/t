@@ -74,3 +74,22 @@ model User {
   @@index([name])
   @@index([email])
 }
+
+// ----------------------
+// Game models
+
+model Gameworld {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  startTime   Int // Unix timestamp
+  speed       Float
+  speedTroops Float
+  version     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // is game world active
+  isLive      Boolean
+
+  @@index([name])
+}
