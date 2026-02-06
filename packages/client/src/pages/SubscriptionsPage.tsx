@@ -82,8 +82,8 @@ export const SubscriptionsPage = () => {
 	if (!teams || teams.length === 0) {
 		return (
 			<div className="p-8 max-w-7xl mx-auto">
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500">You are not a member of any teams yet.</p>
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500">You are not a member of any teams yet.</p>
 				</div>
 			</div>
 		);
@@ -92,8 +92,8 @@ export const SubscriptionsPage = () => {
 	if (!currentTeam) {
 		return (
 			<div className="p-8 max-w-7xl mx-auto">
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500">Please select a team to view subscriptions.</p>
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500">Please select a team to view subscriptions.</p>
 				</div>
 			</div>
 		);
@@ -104,8 +104,8 @@ export const SubscriptionsPage = () => {
 			<div className="mb-8">
 				<div className="flex items-center gap-4 mb-4">
 					<div>
-						<h1 className="text-3xl font-bold text-mail-gray-900 mb-2">Subscriptions</h1>
-						<p className="text-mail-gray-600">
+						<h1 className="text-3xl font-bold text-gray-900 mb-2">Subscriptions</h1>
+						<p className="text-gray-600">
 							View subscriptions for <span className="font-semibold">{currentTeam.name}</span>
 						</p>
 					</div>
@@ -114,22 +114,22 @@ export const SubscriptionsPage = () => {
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 				{/* Category Subscriptions */}
-				<div className="bg-white border border-mail-gray-200 rounded-lg">
-					<div className="p-6 border-b border-mail-gray-200">
-						<h2 className="text-xl font-semibold text-mail-gray-900">Category Subscriptions</h2>
-						<p className="text-sm text-mail-gray-500 mt-1">Categories your team is subscribed to</p>
+				<div className="bg-white border border-gray-200 rounded-lg">
+					<div className="p-6 border-b border-gray-200">
+						<h2 className="text-xl font-semibold text-gray-900">Category Subscriptions</h2>
+						<p className="text-sm text-gray-500 mt-1">Categories your team is subscribed to</p>
 					</div>
 					{/* Available Categories to Subscribe */}
 					{currentTeamId && availableCategories.length > 0 && (
-						<div className="p-6 border-b border-mail-gray-200 bg-mail-gray-50">
-							<h3 className="text-sm font-semibold text-mail-gray-900 mb-3">Available Categories</h3>
+						<div className="p-6 border-b border-gray-200 bg-gray-50">
+							<h3 className="text-sm font-semibold text-gray-900 mb-3">Available Categories</h3>
 							<div className="space-y-2">
 								{availableCategories.map(category => (
 									<div
 										key={category.id}
-										className="p-3 border border-mail-gray-200 rounded-lg bg-white flex items-center justify-between gap-3"
+										className="p-3 border border-gray-200 rounded-lg bg-white flex items-center justify-between gap-3"
 									>
-										<span className="font-medium text-mail-gray-900 text-sm">{category.name}</span>
+										<span className="font-medium text-gray-900 text-sm">{category.name}</span>
 										<Button
 											variant="primary"
 											size="sm"
@@ -151,8 +151,8 @@ export const SubscriptionsPage = () => {
 					<div className="p-6">
 						{isLoadingCategories && (
 							<div className="space-y-3">
-								<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
-								<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
+								<div className="h-16 bg-gray-100 animate-pulse rounded" />
+								<div className="h-16 bg-gray-100 animate-pulse rounded" />
 							</div>
 						)}
 						{!isLoadingCategories && categorySubscriptions && categorySubscriptions.length > 0 && (
@@ -160,14 +160,14 @@ export const SubscriptionsPage = () => {
 								{categorySubscriptions.map((subscription: CategorySubscription) => (
 									<div
 										key={subscription.id}
-										className="p-4 border border-mail-gray-200 rounded-lg hover:border-mail-gray-300 transition-colors"
+										className="p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors"
 									>
 										<div className="flex items-center justify-between gap-3">
 											<div className="flex-1 min-w-0">
-												<h3 className="font-medium text-mail-gray-900 truncate">
+												<h3 className="font-medium text-gray-900 truncate">
 													{subscription.category.name}
 												</h3>
-												<p className="text-xs text-mail-gray-500 mt-1">
+												<p className="text-xs text-gray-500 mt-1">
 													Subscribed {dayjs(subscription.createdAt).format('DD.MM.YYYY')}
 												</p>
 											</div>
@@ -200,10 +200,10 @@ export const SubscriptionsPage = () => {
 						)}
 						{!isLoadingCategories && (!categorySubscriptions || categorySubscriptions.length === 0) && (
 							<div className="text-center py-8">
-								<p className="text-mail-gray-500">No category subscriptions yet.</p>
-								<p className="text-sm text-mail-gray-400 mt-2">
+								<p className="text-gray-500">No category subscriptions yet.</p>
+								<p className="text-sm text-gray-400 mt-2">
 									Subscribe to categories from the{' '}
-									<Link to="/companies" className="text-mail-primary hover:underline">
+									<Link to="/companies" className="text-primary hover:underline">
 										Companies page
 									</Link>
 									.
@@ -214,27 +214,27 @@ export const SubscriptionsPage = () => {
 				</div>
 
 				{/* Company Subscriptions */}
-				<div className="bg-white border border-mail-gray-200 rounded-lg">
-					<div className="p-6 border-b border-mail-gray-200">
-						<h2 className="text-xl font-semibold text-mail-gray-900">Company Subscriptions</h2>
-						<p className="text-sm text-mail-gray-500 mt-1">Companies your team is subscribed to</p>
+				<div className="bg-white border border-gray-200 rounded-lg">
+					<div className="p-6 border-b border-gray-200">
+						<h2 className="text-xl font-semibold text-gray-900">Company Subscriptions</h2>
+						<p className="text-sm text-gray-500 mt-1">Companies your team is subscribed to</p>
 					</div>
 					{/* Available Companies to Subscribe */}
 					{currentTeamId && availableCompanies.length > 0 && (
-						<div className="p-6 border-b border-mail-gray-200 bg-mail-gray-50">
-							<h3 className="text-sm font-semibold text-mail-gray-900 mb-3">Available Companies</h3>
+						<div className="p-6 border-b border-gray-200 bg-gray-50">
+							<h3 className="text-sm font-semibold text-gray-900 mb-3">Available Companies</h3>
 							<div className="space-y-2 max-h-64 overflow-y-auto">
 								{availableCompanies.map(company => (
 									<div
 										key={company.id}
-										className="p-3 border border-mail-gray-200 rounded-lg bg-white flex items-center justify-between gap-3"
+										className="p-3 border border-gray-200 rounded-lg bg-white flex items-center justify-between gap-3"
 									>
 										<div className="flex-1 min-w-0">
-											<span className="font-medium text-mail-gray-900 text-sm block truncate">
+											<span className="font-medium text-gray-900 text-sm block truncate">
 												{company.name}
 											</span>
 											{company.title && (
-												<span className="text-xs text-mail-gray-500 block truncate">
+												<span className="text-xs text-gray-500 block truncate">
 													{company.title}
 												</span>
 											)}
@@ -260,8 +260,8 @@ export const SubscriptionsPage = () => {
 					<div className="p-6">
 						{isLoadingCompanies && (
 							<div className="space-y-3">
-								<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
-								<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
+								<div className="h-16 bg-gray-100 animate-pulse rounded" />
+								<div className="h-16 bg-gray-100 animate-pulse rounded" />
 							</div>
 						)}
 						{!isLoadingCompanies && companySubscriptions && companySubscriptions.length > 0 && (
@@ -269,7 +269,7 @@ export const SubscriptionsPage = () => {
 								{companySubscriptions.map((subscription: CompanySubscription) => (
 									<div
 										key={subscription.id}
-										className="p-4 border border-mail-gray-200 rounded-lg hover:shadow-sm transition-all"
+										className="p-4 border border-gray-200 rounded-lg hover:shadow-sm transition-all"
 										style={{ borderColor: 'inherit' }}
 										onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#a5c400'; }}
 										onMouseLeave={(e) => { e.currentTarget.style.borderColor = ''; }}
@@ -280,20 +280,20 @@ export const SubscriptionsPage = () => {
 												className="flex-1 min-w-0 flex items-center gap-3"
 											>
 												<div className="flex-1 min-w-0">
-													<h3 className="font-medium text-mail-gray-900 truncate">
+													<h3 className="font-medium text-gray-900 truncate">
 														{subscription.company.name}
 													</h3>
 													{subscription.company.title && (
-														<p className="text-sm text-mail-gray-500 truncate mt-1">
+														<p className="text-sm text-gray-500 truncate mt-1">
 															{subscription.company.title}
 														</p>
 													)}
-													<p className="text-xs text-mail-gray-400 mt-1">
+													<p className="text-xs text-gray-400 mt-1">
 														Subscribed {dayjs(subscription.createdAt).format('DD.MM.YYYY')}
 													</p>
 												</div>
 												<svg
-													className="w-5 h-5 text-mail-gray-400 flex-shrink-0"
+													className="w-5 h-5 text-gray-400 flex-shrink-0"
 													fill="none"
 													stroke="currentColor"
 													viewBox="0 0 24 24"
@@ -336,10 +336,10 @@ export const SubscriptionsPage = () => {
 						)}
 						{!isLoadingCompanies && (!companySubscriptions || companySubscriptions.length === 0) && (
 							<div className="text-center py-8">
-								<p className="text-mail-gray-500">No company subscriptions yet.</p>
-								<p className="text-sm text-mail-gray-400 mt-2">
+								<p className="text-gray-500">No company subscriptions yet.</p>
+								<p className="text-sm text-gray-400 mt-2">
 									Subscribe to companies from the{' '}
-									<Link to="/companies" className="text-mail-primary hover:underline">
+									<Link to="/companies" className="text-primary hover:underline">
 										Companies page
 									</Link>
 									.

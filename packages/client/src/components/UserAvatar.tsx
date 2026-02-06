@@ -26,12 +26,12 @@ export const UserAvatar = ({ userId, userName, size = 'md', className = '' }: Us
 				<img
 					src={`${getApiUrl()}/image/user-photo/${userId}`}
 					alt={userName}
-					className={`${sizeClass} rounded-full object-cover border-2 border-mail-gray-200`}
+					className={`${sizeClass} rounded-full object-cover border-2 border-gray-200`}
 					onError={() => setImageError(true)}
 				/>
 			) : (
 				<div
-					className={`${sizeClass} bg-mail-primary rounded-full flex items-center justify-center text-white font-semibold`}
+					className={`${sizeClass} bg-primary rounded-full flex items-center justify-center text-white font-semibold`}
 				>
 					{initial}
 				</div>

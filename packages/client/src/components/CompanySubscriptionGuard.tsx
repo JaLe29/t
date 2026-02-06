@@ -27,10 +27,10 @@ export const CompanySubscriptionGuard = ({
 		return (
 			<div className="p-8">
 				<div className="space-y-4">
-					<div className="h-8 w-48 bg-mail-gray-100 animate-pulse rounded" />
+					<div className="h-8 w-48 bg-gray-100 animate-pulse rounded" />
 					<div className="space-y-2">
-						<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
-						<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
+						<div className="h-16 bg-gray-100 animate-pulse rounded" />
+						<div className="h-16 bg-gray-100 animate-pulse rounded" />
 					</div>
 				</div>
 			</div>
@@ -41,15 +41,15 @@ export const CompanySubscriptionGuard = ({
 	if (!hasSubscription) {
 		return (
 			<div className="p-8 max-w-7xl mx-auto">
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500 mb-4">
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500 mb-4">
 						Your team does not have a subscription to this company. Please subscribe to access company details
 						and emails.
 					</p>
 					<div className="flex gap-4 justify-center">
 						<Link
 							to="/companies"
-							className="text-mail-primary hover:text-mail-primary/80 underline"
+							className="text-primary hover:text-primary/80 underline"
 						>
 							Back to companies
 						</Link>

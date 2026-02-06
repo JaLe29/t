@@ -49,15 +49,15 @@ const EmailListItem = ({ message, onClick }: { message: EmailAccountMessage; onC
 	};
 
 	return (
-		<div className="flex items-start gap-2 p-6 hover:bg-mail-gray-50 transition-colors">
+		<div className="flex items-start gap-2 p-6 hover:bg-gray-50 transition-colors">
 			<button type="button" onClick={onClick} className="flex-1 text-left">
 				<div className="flex items-start justify-between mb-2">
-					<h3 className="font-semibold text-mail-gray-900 text-lg">
-						{message.subject || <span className="text-mail-gray-400">(no subject)</span>}
+					<h3 className="font-semibold text-gray-900 text-lg">
+						{message.subject || <span className="text-gray-400">(no subject)</span>}
 					</h3>
 				</div>
-				<div className="text-sm text-mail-gray-600 mb-2">From: {message.from || '(unknown)'}</div>
-				<div className="text-xs text-mail-gray-400">
+				<div className="text-sm text-gray-600 mb-2">From: {message.from || '(unknown)'}</div>
+				<div className="text-xs text-gray-400">
 					{message.emailAccount.user}@{message.emailAccount.host} •{' '}
 					{dayjs(message.createdAt).format('DD.MM.YYYY HH:mm:ss')}
 				</div>
@@ -65,13 +65,13 @@ const EmailListItem = ({ message, onClick }: { message: EmailAccountMessage; onC
 			<button
 				type="button"
 				onClick={handleFavoriteToggle}
-				className="p-2 hover:bg-mail-gray-100 rounded-lg transition-colors flex-shrink-0"
+				className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
 				aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
 				disabled={addFavorite.isPending || removeFavorite.isPending}
 			>
 				<svg
 					className={`w-5 h-5 transition-colors ${
-						isFavorite ? 'text-yellow-500 fill-yellow-500' : 'text-mail-gray-400'
+						isFavorite ? 'text-yellow-500 fill-yellow-500' : 'text-gray-400'
 					}`}
 					fill={isFavorite ? 'currentColor' : 'none'}
 					stroke="currentColor"
@@ -187,8 +187,8 @@ export const CompanyDetailPage = () => {
 	if (!currentTeamId) {
 		return (
 			<div className="p-8 max-w-7xl mx-auto">
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500 mb-4">Please select a team first</p>
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500 mb-4">Please select a team first</p>
 					<Link to="/teams" className="underline" style={{ color: '#a5c400' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#00BC00'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#a5c400'; }}>
 						Go to teams
 					</Link>
@@ -200,8 +200,8 @@ export const CompanyDetailPage = () => {
 	if (!currentTeamId) {
 		return (
 			<div className="p-8 max-w-7xl mx-auto">
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500 mb-4">Please select a team first</p>
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500 mb-4">Please select a team first</p>
 					<Link to="/teams" className="underline" style={{ color: '#a5c400' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#00BC00'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#a5c400'; }}>
 						Go to teams
 					</Link>
@@ -214,10 +214,10 @@ export const CompanyDetailPage = () => {
 		return (
 			<div className="p-8">
 				<div className="space-y-4">
-					<div className="h-8 w-48 bg-mail-gray-100 animate-pulse rounded" />
+					<div className="h-8 w-48 bg-gray-100 animate-pulse rounded" />
 					<div className="space-y-2">
-						<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
-						<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
+						<div className="h-16 bg-gray-100 animate-pulse rounded" />
+						<div className="h-16 bg-gray-100 animate-pulse rounded" />
 					</div>
 				</div>
 			</div>
@@ -227,8 +227,8 @@ export const CompanyDetailPage = () => {
 	if (!company) {
 		return (
 			<div className="p-8 max-w-7xl mx-auto">
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500 mb-4">Company not found</p>
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500 mb-4">Company not found</p>
 					<Link to="/companies" className="underline" style={{ color: '#a5c400' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#00BC00'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#a5c400'; }}>
 						Back to companies
 					</Link>
@@ -252,15 +252,15 @@ export const CompanyDetailPage = () => {
 				</Link>
 				<div className="flex items-start justify-between gap-4">
 					<div className="flex-1">
-						<h1 className="text-3xl font-bold text-mail-gray-900 mb-2">{company.name}</h1>
-						<p className="text-mail-gray-600 mb-4">{company.title}</p>
+						<h1 className="text-3xl font-bold text-gray-900 mb-2">{company.name}</h1>
+						<p className="text-gray-600 mb-4">{company.title}</p>
 
 						{company.categories && company.categories.length > 0 && (
 							<div className="flex flex-wrap gap-2 mb-6">
 								{company.categories.map(category => (
 									<span
 										key={category.id}
-										className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-mail-primary/10 text-mail-primary border border-mail-primary/20"
+										className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20"
 									>
 										{category.name}
 									</span>
@@ -295,15 +295,15 @@ export const CompanyDetailPage = () => {
 			</div>
 
 			<div className="mb-6">
-				<h2 className="text-xl font-semibold text-mail-gray-900 mb-4">
+				<h2 className="text-xl font-semibold text-gray-900 mb-4">
 					Email Messages ({emailAccountMessages?.length || 0})
 				</h2>
 			</div>
 
 			{/* Pokud NEMÁ subscription, zobrazíme zprávu místo emailů */}
 			{!hasSubscription && (
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500 mb-4">
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500 mb-4">
 						Your team does not have a subscription to this company. Please subscribe to access company emails.
 					</p>
 					{currentTeamId && id && (
@@ -327,7 +327,7 @@ export const CompanyDetailPage = () => {
 
 			{/* Pokud MÁ subscription, zobrazíme emaily */}
 			{hasSubscription && emailAccountMessages && emailAccountMessages.length > 0 && (
-				<div className="bg-white border border-mail-gray-200 rounded-lg divide-y divide-mail-gray-200">
+				<div className="bg-white border border-gray-200 rounded-lg divide-y divide-gray-200">
 					{emailAccountMessages.map(message => (
 						<EmailListItem
 							key={message.id}
@@ -342,16 +342,16 @@ export const CompanyDetailPage = () => {
 			)}
 
 			{hasSubscription && (!emailAccountMessages || emailAccountMessages.length === 0) && (
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-8 text-center">
-					<p className="text-mail-gray-500">No email messages found for this company.</p>
+				<div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
+					<p className="text-gray-500">No email messages found for this company.</p>
 				</div>
 			)}
 
 			{/* Email Preview Modal */}
 			{isFullscreenView && emailHtml?.html && (
 				<div className="fixed inset-0 z-50 bg-white flex flex-col">
-					<div className="border-b border-mail-gray-200 px-6 py-4 flex items-center justify-between bg-white">
-						<h1 className="text-xl font-bold text-mail-gray-900">Email Preview</h1>
+					<div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-white">
+						<h1 className="text-xl font-bold text-gray-900">Email Preview</h1>
 						<div className="flex items-center gap-4">
 							<div className="flex gap-2">
 								{(['mobile', 'tablet', 'desktop', 'fullscreen'] as ViewportMode[]).map(mode => (
@@ -372,11 +372,11 @@ export const CompanyDetailPage = () => {
 							</Button>
 						</div>
 					</div>
-					<div className="flex-1 overflow-auto bg-mail-gray-100 p-4 flex items-center justify-center">
-						<div className="border border-mail-gray-200 rounded-lg overflow-hidden bg-mail-gray-100 shadow-lg">
+					<div className="flex-1 overflow-auto bg-gray-100 p-4 flex items-center justify-center">
+						<div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-100 shadow-lg">
 							{viewportMode !== 'fullscreen' && (
-								<div className="bg-mail-gray-200 px-4 py-2 flex items-center justify-center border-b border-mail-gray-300">
-									<div className="flex items-center gap-2 text-xs text-mail-gray-600">
+								<div className="bg-gray-200 px-4 py-2 flex items-center justify-center border-b border-gray-300">
+									<div className="flex items-center gap-2 text-xs text-gray-600">
 										<span className="w-2 h-2 bg-red-500 rounded-full" />
 										<span className="w-2 h-2 bg-yellow-500 rounded-full" />
 										<span className="w-2 h-2 bg-green-500 rounded-full" />

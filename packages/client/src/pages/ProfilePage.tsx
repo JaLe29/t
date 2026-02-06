@@ -59,14 +59,14 @@ export const ProfilePage = () => {
 	return (
 		<div className="p-8 max-w-4xl">
 			<div className="mb-8">
-				<h1 className="text-3xl font-bold text-mail-gray-900 mb-2">Profile Settings</h1>
-				<p className="text-mail-gray-600">Manage your account settings</p>
+				<h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Settings</h1>
+				<p className="text-gray-600">Manage your account settings</p>
 			</div>
 
 			{/* Update Name */}
 			<div className="mb-8">
-				<h2 className="text-lg font-semibold text-mail-gray-900 mb-4">Change Name</h2>
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-6">
+				<h2 className="text-lg font-semibold text-gray-900 mb-4">Change Name</h2>
+				<div className="bg-white border border-gray-200 rounded-lg p-6">
 					<form onSubmit={handleUpdateName} className="space-y-4">
 						<Input
 							id="name"
@@ -96,8 +96,8 @@ export const ProfilePage = () => {
 			{/* Change Password */}
 			{hasEmailPassword && (
 				<div className="mb-8">
-					<h2 className="text-lg font-semibold text-mail-gray-900 mb-4">Change Password</h2>
-					<div className="bg-white border border-mail-gray-200 rounded-lg p-6">
+					<h2 className="text-lg font-semibold text-gray-900 mb-4">Change Password</h2>
+					<div className="bg-white border border-gray-200 rounded-lg p-6">
 						<form onSubmit={handleChangePassword} className="space-y-4">
 							<Input
 								id="currentPassword"
@@ -159,8 +159,8 @@ export const ProfilePage = () => {
 
 			{!hasEmailPassword && (
 				<div className="mb-8">
-					<div className="bg-mail-gray-50 border border-mail-gray-200 rounded-lg p-6">
-						<p className="text-mail-gray-600">
+					<div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+						<p className="text-gray-600">
 							Password change is only available for accounts that were created with email and password.
 						</p>
 					</div>

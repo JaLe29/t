@@ -144,10 +144,10 @@ export const CompaniesPage = () => {
 		return (
 			<div className="p-8">
 				<div className="space-y-4">
-					<div className="h-8 w-48 bg-mail-gray-100 animate-pulse rounded" />
+					<div className="h-8 w-48 bg-gray-100 animate-pulse rounded" />
 					<div className="space-y-2">
-						<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
-						<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
+						<div className="h-16 bg-gray-100 animate-pulse rounded" />
+						<div className="h-16 bg-gray-100 animate-pulse rounded" />
 					</div>
 				</div>
 			</div>
@@ -157,8 +157,8 @@ export const CompaniesPage = () => {
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
 			<div className="mb-6 sm:mb-8">
-				<h1 className="text-2xl sm:text-3xl font-bold text-mail-gray-900 mb-2">Companies</h1>
-				<p className="text-sm sm:text-base text-mail-gray-600">
+				<h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Companies</h1>
+				<p className="text-sm sm:text-base text-gray-600">
 					{companies && companies.length > 0
 						? `Found ${companies.length} ${companies.length === 1 ? 'company' : 'companies'}`
 						: 'Browse companies and their emails'}
@@ -170,7 +170,7 @@ export const CompaniesPage = () => {
 				<div className="relative">
 					<div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
 						<svg
-							className="h-4 w-4 sm:h-5 sm:w-5 text-mail-gray-400"
+							className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -189,7 +189,7 @@ export const CompaniesPage = () => {
 						placeholder="Search companies..."
 						value={localSearch}
 						onChange={e => handleSearchChange(e.target.value)}
-						className={`w-full pl-10 sm:pl-12 py-2.5 sm:py-3 text-sm sm:text-base border border-mail-gray-300 rounded-lg focus:ring-2 focus:ring-mail-primary/20 focus:border-mail-primary transition-all shadow-sm hover:shadow-md focus:shadow-md outline-none text-mail-gray-900 placeholder-mail-gray-400 ${
+						className={`w-full pl-10 sm:pl-12 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm hover:shadow-md focus:shadow-md outline-none text-gray-900 placeholder-gray-400 ${
 							localSearch ? 'pr-10' : 'pr-4'
 						}`}
 					/>
@@ -197,7 +197,7 @@ export const CompaniesPage = () => {
 						<button
 							type="button"
 							onClick={handleClearSearch}
-							className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-mail-gray-400 hover:text-mail-gray-600 transition-colors"
+							className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
 							aria-label="Clear search"
 						>
 							<svg
@@ -219,7 +219,7 @@ export const CompaniesPage = () => {
 					{isFetching && localSearch && (
 						<div className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center pointer-events-none">
 							<svg
-								className="animate-spin h-4 w-4 sm:h-5 sm:w-5 text-mail-primary"
+								className="animate-spin h-4 w-4 sm:h-5 sm:w-5 text-primary"
 								fill="none"
 								viewBox="0 0 24 24"
 								aria-hidden="true"
@@ -245,11 +245,11 @@ export const CompaniesPage = () => {
 				{categories && categories.length > 0 && (
 					<div>
 						<div className="flex items-center justify-between mb-2 sm:mb-3">
-							<label className="block text-xs sm:text-sm font-medium text-mail-gray-700">
+							<label className="block text-xs sm:text-sm font-medium text-gray-700">
 								Filter by Category
 							</label>
 							{currentTeamId && (
-								<span className="text-xs text-mail-gray-500">
+								<span className="text-xs text-gray-500">
 									Click category to filter, right-click to subscribe
 								</span>
 							)}
@@ -281,18 +281,18 @@ export const CompaniesPage = () => {
 										}}
 										className={`inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all relative ${
 											isSelected
-												? 'bg-mail-primary text-white border-2 border-mail-primary shadow-md hover:shadow-lg'
+												? 'bg-primary text-white border-2 border-primary shadow-md hover:shadow-lg'
 												: ''
 										} ${
 											!isSelected && isSubscribed
-												? 'bg-mail-primary/20 text-mail-primary border-2 border-mail-primary/50'
+												? 'bg-primary/20 text-primary border-2 border-primary/50'
 												style={{ borderColor: 'rgba(165, 196, 0, 0.5)' }}
 												onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#a5c400'; }}
 												onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(165, 196, 0, 0.5)'; }}
 												: ''
 										} ${
 											!isSelected && !isSubscribed
-												? 'bg-white text-mail-gray-700 border-2 border-mail-gray-300 hover:border-mail-primary hover:shadow-md'
+												? 'bg-white text-gray-700 border-2 border-gray-300 hover:border-primary hover:shadow-md'
 												: ''
 										}`}
 									>
@@ -326,14 +326,14 @@ export const CompaniesPage = () => {
 						return (
 							<div
 								key={company.id}
-								className="bg-white border border-mail-gray-200 rounded-lg p-4 sm:p-6 hover:border-mail-primary hover:shadow-md transition-all flex flex-col"
+								className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 hover:border-primary hover:shadow-md transition-all flex flex-col"
 							>
 								<Link to={`/companies/${company.id}`} className="flex-1">
 									<div className="mb-3">
-										<h3 className="font-semibold text-mail-gray-900 text-lg mb-1">
+										<h3 className="font-semibold text-gray-900 text-lg mb-1">
 											{company.name}
 										</h3>
-										<p className="text-sm text-mail-gray-500">{company.title}</p>
+										<p className="text-sm text-gray-500">{company.title}</p>
 									</div>
 
 									{company.categories && company.categories.length > 0 && (
@@ -341,7 +341,7 @@ export const CompaniesPage = () => {
 											{company.categories.map(category => (
 												<span
 													key={category.id}
-													className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-mail-primary/10 text-mail-primary border border-mail-primary/20"
+													className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20"
 												>
 													{category.name}
 												</span>
@@ -349,12 +349,12 @@ export const CompaniesPage = () => {
 										</div>
 									)}
 
-									<div className="mt-4 pt-4 border-t border-mail-gray-200">
-										<p className="text-xs text-mail-gray-400">Click to view details →</p>
+									<div className="mt-4 pt-4 border-t border-gray-200">
+										<p className="text-xs text-gray-400">Click to view details →</p>
 									</div>
 								</Link>
 								{currentTeamId && (
-									<div className="mt-4 pt-4 border-t border-mail-gray-200">
+									<div className="mt-4 pt-4 border-t border-gray-200">
 										<Button
 											type="button"
 											variant={isSubscribed ? 'danger' : 'primary'}
@@ -386,8 +386,8 @@ export const CompaniesPage = () => {
 					})}
 				</div>
 			) : (
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500">
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500">
 						{searchQuery || selectedCategories.length > 0
 							? 'No companies match your search criteria.'
 							: 'No companies found.'}

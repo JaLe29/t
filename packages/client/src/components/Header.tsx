@@ -19,7 +19,7 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
 	};
 
 	return (
-		<header className="bg-white shadow-sm border-b border-mail-gray-200">
+		<header className="bg-white shadow-sm border-b border-gray-200">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center h-16">
 					{/* Logo and Mobile Menu Button */}
@@ -28,7 +28,7 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
 							<button
 								type="button"
 								onClick={onMenuToggle}
-								className="md:hidden p-2 rounded-lg text-mail-gray-700 hover:bg-mail-gray-100 transition-colors"
+								className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
 								aria-label="Toggle menu"
 							>
 								<svg
@@ -49,7 +49,7 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
 						)}
 						<Link to="/" className="flex items-center space-x-2">
 							<span className="text-2xl">⚔️</span>
-							<span className="text-xl font-bold text-travian-primary">Travian</span>
+							<span className="text-xl font-bold text-primary">Travian</span>
 						</Link>
 					</div>
 
@@ -60,25 +60,25 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
 								<button
 									type="button"
 									onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-									className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-mail-gray-100 transition-colors"
+									className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
 								>
 									{session.user.id && !photoError ? (
 										<img
 											src={`${getApiUrl()}/image/user-photo/${session.user.id}`}
 											alt={`${session.user.name || session.user.email || 'User'} profile`}
-											className="w-8 h-8 rounded-full object-cover border-2 border-mail-gray-200"
+											className="w-8 h-8 rounded-full object-cover border-2 border-gray-200"
 											onError={() => setPhotoError(true)}
 										/>
 									) : (
-										<div className="w-8 h-8 bg-travian-primary rounded-full flex items-center justify-center text-white font-semibold">
+										<div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold">
 											{(session.user.name || session.user.email || 'U').charAt(0).toUpperCase()}
 										</div>
 									)}
-									<span className="hidden sm:block text-mail-gray-700 font-medium">
+									<span className="hidden sm:block text-gray-700 font-medium">
 										{session.user.name || session.user.email}
 									</span>
 									<svg
-										className={`w-4 h-4 text-mail-gray-600 transition-transform ${
+										className={`w-4 h-4 text-gray-600 transition-transform ${
 											isUserMenuOpen ? 'rotate-180' : ''
 										}`}
 										fill="none"
@@ -105,13 +105,13 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
 											onClick={() => setIsUserMenuOpen(false)}
 											aria-label="Close user menu"
 										/>
-										<div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-mail-gray-200 z-20">
+										<div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-20">
 											<div className="py-1">
-												<div className="px-4 py-2 border-b border-mail-gray-200">
-													<p className="text-sm font-semibold text-mail-gray-900">
+												<div className="px-4 py-2 border-b border-gray-200">
+													<p className="text-sm font-semibold text-gray-900">
 														{session.user.name || 'User'}
 													</p>
-													<p className="text-xs text-mail-gray-500 truncate">
+													<p className="text-xs text-gray-500 truncate">
 														{session.user.email}
 													</p>
 												</div>

@@ -10,7 +10,7 @@ const variantClasses = {
 	primary: 'btn-primary',
 	secondary: 'btn-secondary',
 	danger: 'btn-danger',
-	ghost: 'text-mail-gray-700 hover:bg-mail-gray-100',
+	ghost: 'text-gray-700 hover:bg-gray-100',
 };
 
 const sizeClasses = {

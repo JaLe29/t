@@ -27,7 +27,7 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 		<>
 			{backdrop}
 			<aside
-				className={`fixed md:relative left-0 top-0 h-full bg-white border-r border-mail-gray-200 flex flex-col z-50 md:z-auto transition-all duration-300 ease-out shadow-xl md:shadow-none ${
+				className={`fixed md:relative left-0 top-0 h-full bg-white border-r border-gray-200 flex flex-col z-50 md:z-auto transition-all duration-300 ease-out shadow-xl md:shadow-none ${
 					isOpen ? 'translate-x-0 w-full md:w-64' : '-translate-x-full md:translate-x-0 w-0 md:w-12'
 				}${isLoading ? ' overflow-hidden' : ''}`}
 			>
@@ -36,11 +36,11 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 						<button
 							type="button"
 							onClick={onToggle}
-							className="p-3 hover:bg-mail-gray-50 transition-colors"
+							className="p-3 hover:bg-gray-50 transition-colors"
 							aria-label="Open sidebar"
 						>
 							<svg
-								className="w-6 h-6 text-mail-gray-600"
+								className="w-6 h-6 text-gray-600"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
@@ -58,15 +58,15 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 				)}
 				{isOpen && (
 					<>
-						<div className="p-4 border-b border-mail-gray-200 relative">
+						<div className="p-4 border-b border-gray-200 relative">
 							<button
 								type="button"
 								onClick={onToggle}
-								className="absolute top-4 right-4 p-1 hover:bg-mail-gray-100 rounded transition-colors"
+								className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded transition-colors"
 								aria-label="Close sidebar"
 							>
 								<svg
-									className="w-5 h-5 text-mail-gray-600"
+									className="w-5 h-5 text-gray-600"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -87,7 +87,7 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 							<div className="px-2 space-y-6">
 								{/* Main Navigation */}
 								<div>
-									<p className="px-3 text-xs font-semibold text-mail-gray-500 uppercase tracking-wider mb-2">
+									<p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
 										Navigation
 									</p>
 									<div className="space-y-1">
@@ -95,8 +95,8 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 											to="/"
 											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
 												isActive('/')
-													? 'bg-mail-primary/10 text-mail-primary'
-													: 'text-mail-gray-700 hover:bg-mail-gray-50'
+													? 'bg-primary/10 text-primary'
+													: 'text-gray-700 hover:bg-gray-50'
 											}`}
 										>
 											<svg
@@ -119,8 +119,8 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 											to="/companies"
 											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
 												isActive('/companies')
-													? 'bg-mail-primary/10 text-mail-primary'
-													: 'text-mail-gray-700 hover:bg-mail-gray-50'
+													? 'bg-primary/10 text-primary'
+													: 'text-gray-700 hover:bg-gray-50'
 											}`}
 										>
 											<svg
@@ -143,8 +143,8 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 											to="/subscriptions"
 											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
 												isActive('/subscriptions')
-													? 'bg-mail-primary/10 text-mail-primary'
-													: 'text-mail-gray-700 hover:bg-mail-gray-50'
+													? 'bg-primary/10 text-primary'
+													: 'text-gray-700 hover:bg-gray-50'
 											}`}
 										>
 											<svg
@@ -167,8 +167,8 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 											to="/favorites"
 											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
 												isActive('/favorites')
-													? 'bg-mail-primary/10 text-mail-primary'
-													: 'text-mail-gray-700 hover:bg-mail-gray-50'
+													? 'bg-primary/10 text-primary'
+													: 'text-gray-700 hover:bg-gray-50'
 											}`}
 										>
 											<svg
@@ -193,7 +193,7 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 
 								{/* Account */}
 								<div>
-									<p className="px-3 text-xs font-semibold text-mail-gray-500 uppercase tracking-wider mb-2">
+									<p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
 										Account
 									</p>
 									<div className="space-y-1">
@@ -201,8 +201,8 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 											to="/profile"
 											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
 												isActive('/profile')
-													? 'bg-mail-primary/10 text-mail-primary'
-													: 'text-mail-gray-700 hover:bg-mail-gray-50'
+													? 'bg-primary/10 text-primary'
+													: 'text-gray-700 hover:bg-gray-50'
 											}`}
 										>
 											<svg

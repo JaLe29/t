@@ -50,7 +50,7 @@
 	}
 
 	.input-field {
-		@apply w-full px-4 py-3 border border-mail-gray-300 rounded-lg transition-all duration-200 bg-white text-mail-gray-900;
+		@apply w-full px-4 py-3 border border-gray-300 rounded-lg transition-all duration-200 bg-white text-gray-900;
 		border-color: #D4D4D4;
 	}
 
@@ -61,30 +61,30 @@
 	}
 
 	.card {
-		@apply bg-white rounded-xl shadow-md p-6 border border-mail-gray-200;
+		@apply bg-white rounded-xl shadow-md p-6 border border-gray-200;
 	}
 
-	.text-travian-primary {
+	.text-primary {
 		color: #a5c400;
 	}
 
-	.text-travian-primary:hover {
+	.text-primary:hover {
 		color: #00BC00;
 	}
 
-	.bg-travian-primary {
+	.bg-primary {
 		background-color: #a5c400;
 	}
 
-	.bg-travian-primary:hover:not(:disabled) {
+	.hover\:bg-primary-dark:hover {
 		background-color: #00BC00;
 	}
 
-	.border-travian-primary {
+	.border-primary {
 		border-color: #a5c400;
 	}
 
-	.border-travian-primary:hover {
+	.hover\:border-primary-dark:hover {
 		border-color: #00BC00;
 	}
 }

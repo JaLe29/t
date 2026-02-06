@@ -48,7 +48,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
 					aria-modal="true"
 					aria-labelledby={`modal-title-${title}`}
 				>
-					<h2 id={`modal-title-${title}`} className="text-xl font-bold text-mail-gray-900 mb-4">
+					<h2 id={`modal-title-${title}`} className="text-xl font-bold text-gray-900 mb-4">
 						{title}
 					</h2>
 					{children}

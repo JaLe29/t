@@ -69,7 +69,7 @@ export const EmailModal: React.FC<EmailModalProps> = ({
 					aria-modal="true"
 					aria-labelledby="email-preview-title"
 				>
-					<h2 id="email-preview-title" className="text-xl font-bold text-mail-gray-900 mb-4">
+					<h2 id="email-preview-title" className="text-xl font-bold text-gray-900 mb-4">
 						Email Preview
 					</h2>
 					<div className="mb-4 flex items-center justify-between flex-wrap gap-2">
@@ -102,7 +102,7 @@ export const EmailModal: React.FC<EmailModalProps> = ({
 							if (isLoadingHtml) {
 								return (
 									<div className="flex items-center justify-center py-8">
-										<div className="text-mail-gray-600">Loading email...</div>
+										<div className="text-gray-600">Loading email...</div>
 									</div>
 								);
 							}
@@ -111,10 +111,10 @@ export const EmailModal: React.FC<EmailModalProps> = ({
 								const isFullscreenMode = viewportMode === 'fullscreen';
 
 								return (
-									<div className="border border-mail-gray-200 rounded-lg overflow-hidden bg-mail-gray-100">
+									<div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-100">
 										{!isFullscreenMode && (
-											<div className="bg-mail-gray-200 px-4 py-2 flex items-center justify-center border-b border-mail-gray-300">
-												<div className="flex items-center gap-2 text-xs text-mail-gray-600">
+											<div className="bg-gray-200 px-4 py-2 flex items-center justify-center border-b border-gray-300">
+												<div className="flex items-center gap-2 text-xs text-gray-600">
 													<span className="w-2 h-2 bg-red-500 rounded-full" />
 													<span className="w-2 h-2 bg-yellow-500 rounded-full" />
 													<span className="w-2 h-2 bg-green-500 rounded-full" />
@@ -149,7 +149,7 @@ export const EmailModal: React.FC<EmailModalProps> = ({
 								);
 							}
 							return (
-								<div className="text-center py-8 text-mail-gray-600">
+								<div className="text-center py-8 text-gray-600">
 									<p>Email HTML not found in S3</p>
 								</div>
 							);

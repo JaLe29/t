@@ -13,7 +13,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 			<div className="min-h-screen flex items-center justify-center bg-white">
 				<div className="text-center space-y-4">
 					<div className="text-6xl animate-bounce">⚔️</div>
-					<div className="text-xl text-mail-gray-700 font-semibold">Loading...</div>
+					<div className="text-xl text-gray-700 font-semibold">Loading...</div>
 				</div>
 			</div>
 		);

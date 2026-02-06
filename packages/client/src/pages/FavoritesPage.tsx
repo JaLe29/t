@@ -102,10 +102,10 @@ export const FavoritesPage = () => {
 		return (
 			<div className="p-8">
 				<div className="space-y-4">
-					<div className="h-8 w-48 bg-mail-gray-100 animate-pulse rounded" />
+					<div className="h-8 w-48 bg-gray-100 animate-pulse rounded" />
 					<div className="space-y-2">
-						<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
-						<div className="h-16 bg-mail-gray-100 animate-pulse rounded" />
+						<div className="h-16 bg-gray-100 animate-pulse rounded" />
+						<div className="h-16 bg-gray-100 animate-pulse rounded" />
 					</div>
 				</div>
 			</div>
@@ -115,8 +115,8 @@ export const FavoritesPage = () => {
 	return (
 		<div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
 			<div className="mb-6 sm:mb-8">
-				<h1 className="text-2xl sm:text-3xl font-bold text-mail-gray-900 mb-2">Favorite Emails</h1>
-				<p className="text-sm sm:text-base text-mail-gray-600">
+				<h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Favorite Emails</h1>
+				<p className="text-sm sm:text-base text-gray-600">
 					{favorites && favorites.length > 0
 						? `Found ${favorites.length} ${favorites.length === 1 ? 'favorite email' : 'favorite emails'}`
 						: 'Your favorite emails will appear here'}
@@ -128,7 +128,7 @@ export const FavoritesPage = () => {
 				<div className="relative">
 					<div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
 						<svg
-							className="h-4 w-4 sm:h-5 sm:w-5 text-mail-gray-400"
+							className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400"
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
@@ -147,7 +147,7 @@ export const FavoritesPage = () => {
 						placeholder="Search favorites..."
 						value={localSearch}
 						onChange={e => handleSearchChange(e.target.value)}
-						className={`w-full pl-10 sm:pl-12 py-2.5 sm:py-3 text-sm sm:text-base border border-mail-gray-300 rounded-lg focus:ring-2 focus:ring-mail-primary/20 focus:border-mail-primary transition-all shadow-sm hover:shadow-md focus:shadow-md outline-none text-mail-gray-900 placeholder-mail-gray-400 ${
+						className={`w-full pl-10 sm:pl-12 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm hover:shadow-md focus:shadow-md outline-none text-gray-900 placeholder-gray-400 ${
 							localSearch ? 'pr-10' : 'pr-4'
 						}`}
 					/>
@@ -155,7 +155,7 @@ export const FavoritesPage = () => {
 						<button
 							type="button"
 							onClick={handleClearSearch}
-							className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-mail-gray-400 hover:text-mail-gray-600 transition-colors"
+							className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
 							aria-label="Clear search"
 						>
 							<svg
@@ -177,7 +177,7 @@ export const FavoritesPage = () => {
 					{isFetching && localSearch && (
 						<div className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center pointer-events-none">
 							<svg
-								className="animate-spin h-4 w-4 sm:h-5 sm:w-5 text-mail-primary"
+								className="animate-spin h-4 w-4 sm:h-5 sm:w-5 text-primary"
 								fill="none"
 								viewBox="0 0 24 24"
 								aria-hidden="true"
@@ -202,7 +202,7 @@ export const FavoritesPage = () => {
 			</div>
 
 			{favorites && favorites.length > 0 ? (
-				<div className="bg-white border border-mail-gray-200 rounded-lg divide-y divide-mail-gray-200">
+				<div className="bg-white border border-gray-200 rounded-lg divide-y divide-gray-200">
 					{favorites.map(favorite => (
 						<FavoriteEmailItem
 							key={favorite.id}
@@ -215,8 +215,8 @@ export const FavoritesPage = () => {
 					))}
 				</div>
 			) : (
-				<div className="bg-white border border-mail-gray-200 rounded-lg p-12 text-center">
-					<p className="text-mail-gray-500">
+				<div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
+					<p className="text-gray-500">
 						{searchQuery ? 'No favorites match your search criteria.' : 'No favorite emails yet.'}
 					</p>
 				</div>
@@ -225,8 +225,8 @@ export const FavoritesPage = () => {
 			{/* Email Preview Modal */}
 			{isFullscreenView && emailHtml?.html && (
 				<div className="fixed inset-0 z-50 bg-white flex flex-col">
-					<div className="border-b border-mail-gray-200 px-6 py-4 flex items-center justify-between bg-white">
-						<h1 className="text-xl font-bold text-mail-gray-900">Email Preview</h1>
+					<div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between bg-white">
+						<h1 className="text-xl font-bold text-gray-900">Email Preview</h1>
 						<div className="flex items-center gap-4">
 							<div className="flex gap-2">
 								{(['mobile', 'tablet', 'desktop', 'fullscreen'] as ViewportMode[]).map(mode => (
@@ -247,11 +247,11 @@ export const FavoritesPage = () => {
 							</Button>
 						</div>
 					</div>
-					<div className="flex-1 overflow-auto bg-mail-gray-100 p-4 flex items-center justify-center">
-						<div className="border border-mail-gray-200 rounded-lg overflow-hidden bg-mail-gray-100 shadow-lg">
+					<div className="flex-1 overflow-auto bg-gray-100 p-4 flex items-center justify-center">
+						<div className="border border-gray-200 rounded-lg overflow-hidden bg-gray-100 shadow-lg">
 							{viewportMode !== 'fullscreen' && (
-								<div className="bg-mail-gray-200 px-4 py-2 flex items-center justify-center border-b border-mail-gray-300">
-									<div className="flex items-center gap-2 text-xs text-mail-gray-600">
+								<div className="bg-gray-200 px-4 py-2 flex items-center justify-center border-b border-gray-300">
+									<div className="flex items-center gap-2 text-xs text-gray-600">
 										<span className="w-2 h-2 bg-red-500 rounded-full" />
 										<span className="w-2 h-2 bg-yellow-500 rounded-full" />
 										<span className="w-2 h-2 bg-green-500 rounded-full" />
@@ -323,24 +323,24 @@ const FavoriteEmailItem = ({
 	};
 
 	return (
-		<div className="flex items-start gap-2 p-6 hover:bg-mail-gray-50 transition-colors">
+		<div className="flex items-start gap-2 p-6 hover:bg-gray-50 transition-colors">
 			<button type="button" onClick={onClick} className="flex-1 text-left">
 				<div className="flex items-start justify-between mb-2">
-					<h3 className="font-semibold text-mail-gray-900 text-lg">
+					<h3 className="font-semibold text-gray-900 text-lg">
 						{favorite.emailAccountMessage.subject || (
-							<span className="text-mail-gray-400">(no subject)</span>
+							<span className="text-gray-400">(no subject)</span>
 						)}
 					</h3>
 				</div>
-				<div className="text-sm text-mail-gray-600 mb-2">
+				<div className="text-sm text-gray-600 mb-2">
 					From: {favorite.emailAccountMessage.from || '(unknown)'}
 				</div>
 				{favorite.emailAccountMessage.company && (
-					<div className="text-sm text-mail-gray-500 mb-2">
+					<div className="text-sm text-gray-500 mb-2">
 						Company: {favorite.emailAccountMessage.company.name}
 					</div>
 				)}
-				<div className="text-xs text-mail-gray-400">
+				<div className="text-xs text-gray-400">
 					{favorite.emailAccountMessage.emailAccount.user}@{favorite.emailAccountMessage.emailAccount.host} •{' '}
 					{dayjs(favorite.emailAccountMessage.createdAt).format('DD.MM.YYYY HH:mm:ss')} • Added{' '}
 					{dayjs(favorite.createdAt).format('DD.MM.YYYY')}
@@ -349,7 +349,7 @@ const FavoriteEmailItem = ({
 			<button
 				type="button"
 				onClick={handleRemoveFavorite}
-				className="p-2 hover:bg-mail-gray-100 rounded-lg transition-colors flex-shrink-0"
+				className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
 				aria-label="Remove from favorites"
 				disabled={removeFavorite.isPending}
 			>
