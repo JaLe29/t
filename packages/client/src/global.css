@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	body {
+		@apply bg-white min-h-screen;
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+	}
+}
+
+@layer components {
+	.btn-primary {
+		background-color: #a5c400;
+		color: white;
+		font-weight: 600;
+		padding: 0.625rem 1.5rem;
+		border-radius: 0.5rem;
+		transition: all 0.2s;
+		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	}
+
+	.btn-primary:hover:not(:disabled) {
+		background-color: #00BC00;
+		box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	}
+
+	.btn-primary:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.btn-secondary {
+		background-color: #a5c400;
+		color: white;
+		font-weight: 600;
+		padding: 0.625rem 1.5rem;
+		border-radius: 0.5rem;
+		transition: all 0.2s;
+		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	}
+
+	.btn-secondary:hover:not(:disabled) {
+		background-color: #00BC00;
+		box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+	}
+
+	.btn-danger {
+		@apply bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+	}
+
+	.input-field {
+		@apply w-full px-4 py-3 border border-mail-gray-300 rounded-lg transition-all duration-200 bg-white text-mail-gray-900;
+		border-color: #D4D4D4;
+	}
+
+	.input-field:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px rgba(165, 196, 0, 0.2);
+		border-color: #a5c400;
+	}
+
+	.card {
+		@apply bg-white rounded-xl shadow-md p-6 border border-mail-gray-200;
+	}
+
+	.text-travian-primary {
+		color: #a5c400;
+	}
+
+	.text-travian-primary:hover {
+		color: #00BC00;
+	}
+
+	.bg-travian-primary {
+		background-color: #a5c400;
+	}
+
+	.bg-travian-primary:hover:not(:disabled) {
+		background-color: #00BC00;
+	}
+
+	.border-travian-primary {
+		border-color: #a5c400;
+	}
+
+	.border-travian-primary:hover {
+		border-color: #00BC00;
+	}
+}

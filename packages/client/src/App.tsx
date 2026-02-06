@@ -1,0 +1,58 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import type React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { AuthGuard } from './components/AuthGuard';
+import { HomePage } from './pages/HomePage';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
+import { trpc, trpcClient } from './utils/trpc';
+
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+});
+
+export const App: React.FC = () => {
+	const router = createBrowserRouter([
+		{
+			path: '/',
+			element: (
+				<AuthGuard>
+					<HomePage />
+				</AuthGuard>
+			),
+		},
+		{
+			path: '/login',
+			element: <LoginPage />,
+		},
+		{
+			path: '/register',
+			element: <RegisterPage />,
+		},
+		{
+			path: '*',
+			element: (
+				<AuthGuard>
+					<HomePage />
+				</AuthGuard>
+			),
+		},
+	]);
+
+	return (
+		<trpc.Provider client={trpcClient} queryClient={queryClient}>
+			<QueryClientProvider client={queryClient}>
+				<RouterProvider
+					router={router}
+					future={{
+						v7_startTransition: true,
+					}}
+				/>
+			</QueryClientProvider>
+		</trpc.Provider>
+	);
+};

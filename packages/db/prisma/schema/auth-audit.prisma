@@ -1,0 +1,15 @@
+// ----------------------
+// Auth audit models
+
+model FailedLoginAttempt {
+  id        String   @id @default(uuid())
+  email     String? // Email použitý při pokusu (může být null pokud email není poskytnut)
+  ipAddress String?
+  userAgent String?
+  reason    String? // Důvod neúspěchu (např. "Invalid credentials", "User not found")
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([ipAddress])
+  @@index([createdAt])
+}
