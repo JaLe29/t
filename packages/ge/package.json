@@ -3,19 +3,18 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"build": "tsc --build tsconfig.json && copyfiles -u 1 src/index.html src/manifest.json dist",
-		"watch": "yarn clean && concurrently \"tsc --build --watch tsconfig.json\" \"cpx 'src/index.html' dist -w\" \"cpx 'src/manifest.json' dist -w\"",
+		"build": "tsc --build tsconfig.json && yarn esbuild src/code/background.ts --bundle --format=iife --platform=browser --outfile=dist/code/background.js --external:chrome && node clean-bundled-deps.js && copyfiles -u 1 src/index.html src/manifest.json dist",
+		"watch": "nodemon --watch src --ext ts,json,html --exec \"yarn build\"",
 		"clean": "rimraf dist && rimraf .cache && rimraf node_modules && rimraf tsconfig.tsbuildinfo",
 		"typecheck": "yarn build"
 	},
 	"devDependencies": {
 		"@types/chrome": "^0.0.268",
 		"@types/node": "^22.15.3",
-		"concurrently": "^9.1.0",
 		"copyfiles": "^2.4.1",
-		"cpx": "^1.5.0",
+		"esbuild": "^0.27.3",
+		"nodemon": "^3.1.0",
 		"rimraf": "^6.1.2",
-		"tsx": "^4.19.3",
 		"typescript": "^5.8.3"
 	}
 }

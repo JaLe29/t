@@ -5,13 +5,15 @@
 		"src",
 	],
 	"exclude": [
-	  "**/dist"
+	  "**/dist",
 	],
 	"compilerOptions": {
 		"sourceMap": false,
 		"composite": false,
 		"declaration": false,
 		"declarationMap": false,
+		"module": "ES2020",
+		"moduleResolution": "bundler",
 		"outDir": "dist",
 		"rootDir": "src",
 		"baseUrl": "src",
