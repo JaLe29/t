@@ -286,15 +286,15 @@ export const CompaniesPage = () => {
 										} ${
 											!isSelected && isSubscribed
 												? 'bg-primary/20 text-primary border-2 border-primary/50'
-												style={{ borderColor: 'rgba(165, 196, 0, 0.5)' }}
-												onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#a5c400'; }}
-												onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(165, 196, 0, 0.5)'; }}
 												: ''
 										} ${
 											!isSelected && !isSubscribed
 												? 'bg-white text-gray-700 border-2 border-gray-300 hover:border-primary hover:shadow-md'
 												: ''
 										}`}
+										style={!isSelected && isSubscribed ? { borderColor: 'rgba(165, 196, 0, 0.5)' } : undefined}
+										onMouseEnter={!isSelected && isSubscribed ? (e) => { e.currentTarget.style.borderColor = '#a5c400'; } : undefined}
+										onMouseLeave={!isSelected && isSubscribed ? (e) => { e.currentTarget.style.borderColor = 'rgba(165, 196, 0, 0.5)'; } : undefined}
 									>
 										{category.name}
 										{isSubscribed && (

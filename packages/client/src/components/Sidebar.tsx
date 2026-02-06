@@ -27,7 +27,7 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 		<>
 			{backdrop}
 			<aside
-				className={`fixed md:relative left-0 top-0 h-full bg-white border-r border-gray-200 flex flex-col z-50 md:z-auto transition-all duration-300 ease-out shadow-xl md:shadow-none ${
+				className={`bg-glass fixed md:relative left-0 top-0 h-full border-r border-gray-200 flex flex-col z-50 md:z-auto transition-all duration-300 ease-out shadow-xl md:shadow-none ${
 					isOpen ? 'translate-x-0 w-full md:w-64' : '-translate-x-full md:translate-x-0 w-0 md:w-12'
 				}`}
 			>

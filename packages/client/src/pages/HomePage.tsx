@@ -8,7 +8,7 @@ export const HomePage = () => {
 		<Layout>
 			<div className="flex items-center justify-center p-4 pt-8">
 				<div className="max-w-2xl w-full space-y-8">
-					<div className="bg-white rounded-2xl shadow-md border border-gray-200 p-12 text-center">
+					<div className="card-glass rounded-2xl p-12 text-center">
 						<h1 className="text-5xl font-bold text-gray-900 mb-8">Hello World</h1>
 						
 						<div className="mb-8">

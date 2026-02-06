@@ -61,7 +61,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 						onClose={() => setIsSidebarOpen(false)}
 					/>
 				)}
-				<main className="flex-1 overflow-y-auto min-h-0">{children}</main>
+				<main className="flex-1 overflow-y-auto min-h-0 bg-transparent">{children}</main>
 			</div>
 		</div>
 	);

@@ -107,14 +107,14 @@ export const GameAccountsPage = () => {
 				{(() => {
 					if (isLoadingAccounts) {
 						return (
-							<div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
+							<div className="card-glass p-6 mb-6">
 								<div className="text-gray-500">Loading accounts...</div>
 							</div>
 						);
 					}
 					if (accounts && accounts.length > 0) {
 						return (
-							<div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
+							<div className="card-glass p-6 mb-6">
 								<h2 className="text-xl font-semibold text-gray-800 mb-4">Your Accounts</h2>
 								<div className="space-y-3">
 									{accounts.map(account => (
@@ -152,7 +152,7 @@ export const GameAccountsPage = () => {
 				})()}
 
 				{/* Add New Account Form */}
-				<div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+				<div className="card-glass p-6">
 					<form onSubmit={handleSubmit} className="space-y-6">
 						{/* Gameworld Selection */}
 						<Dropdown
@@ -200,7 +200,7 @@ export const GameAccountsPage = () => {
 								{showSuggestions && playerQuery.length > 0 && (
 									<div
 										ref={suggestionsRef}
-										className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+										className="absolute z-10 w-full mt-1 bg-glass-strong border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"
 									>
 										{(() => {
 											if (isLoadingPlayers) {

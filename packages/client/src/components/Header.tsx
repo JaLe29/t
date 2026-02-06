@@ -19,7 +19,7 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
 	};
 
 	return (
-		<header className="bg-white shadow-sm border-b border-gray-200">
+		<header className="bg-glass shadow-sm border-b border-gray-200">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex justify-between items-center h-16">
 					{/* Logo and Mobile Menu Button */}
@@ -105,7 +105,7 @@ export const Header = ({ onMenuToggle }: HeaderProps) => {
 											onClick={() => setIsUserMenuOpen(false)}
 											aria-label="Close user menu"
 										/>
-										<div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 z-20">
+										<div className="absolute right-0 mt-2 w-48 bg-glass rounded-lg shadow-xl border border-gray-200 z-20">
 											<div className="py-1">
 												<div className="px-4 py-2 border-b border-gray-200">
 													<p className="text-sm font-semibold text-gray-900">

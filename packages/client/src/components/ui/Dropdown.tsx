@@ -153,7 +153,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
 				{/* Dropdown Menu */}
 				{isOpen && !isLoading && (
-					<div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 flex flex-col">
+					<div className="absolute z-10 w-full mt-1 bg-glass-strong border border-gray-300 rounded-lg shadow-lg max-h-60 flex flex-col">
 						{searchable && (
 							<div className="p-2 border-b border-gray-200">
 								<input

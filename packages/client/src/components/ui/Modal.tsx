@@ -40,7 +40,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
 			/>
 			<div className="fixed inset-0 flex items-center justify-center z-40 p-4">
 				<div
-					className="bg-white rounded-lg shadow-xl max-w-md w-full p-6"
+					className="bg-glass-strong rounded-lg shadow-xl max-w-md w-full p-6"
 					onClick={e => {
 						e.stopPropagation();
 					}}
