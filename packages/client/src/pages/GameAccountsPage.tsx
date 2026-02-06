@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { Layout } from '../components/Layout';
+import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { Dropdown } from '../components/ui/Dropdown';
 import { Input } from '../components/ui/Input';
+import { NationIcon } from '../components/ui/NationIcon';
 import { trpc } from '../utils/trpc';
 
 export const GameAccountsPage = () => {
 	const [selectedGameworldId, setSelectedGameworldId] = useState<string>('');
 	const [playerQuery, setPlayerQuery] = useState('');
 	const [showSuggestions, setShowSuggestions] = useState(false);
+	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+	const [accountToDelete, setAccountToDelete] = useState<string | null>(null);
 	const suggestionsRef = useRef<HTMLDivElement>(null);
 
 	const { data: gameworlds, isLoading: isLoadingGameworlds } = trpc.gameworld.getActive.useQuery();
@@ -37,8 +41,21 @@ export const GameAccountsPage = () => {
 	const deleteAccount = trpc.gameAccount.delete.useMutation({
 		onSuccess: () => {
 			utils.gameAccount.list.invalidate();
+			setDeleteModalOpen(false);
+			setAccountToDelete(null);
 		},
 	});
+
+	const handleDeleteClick = (accountId: string) => {
+		setAccountToDelete(accountId);
+		setDeleteModalOpen(true);
+	};
+
+	const handleDeleteConfirm = () => {
+		if (accountToDelete) {
+			deleteAccount.mutate({ id: accountToDelete });
+		}
+	};
 
 	// Close suggestions when clicking outside
 	useEffect(() => {
@@ -107,10 +124,10 @@ export const GameAccountsPage = () => {
 										>
 											<div className="flex-1">
 												<div className="font-medium text-gray-900">{account.gameworld.name}</div>
-												<div className="text-sm text-gray-600 mt-1">
-													Player: {account.playerName || 'Unknown'}
+												<div className="text-sm text-gray-600 mt-1 flex items-center gap-2">
+													<span>Player: {account.playerName || 'Unknown'}</span>
 													{'playerTribeId' in account && account.playerTribeId && (
-														<span className="ml-2 text-gray-500">(Tribe: {account.playerTribeId})</span>
+														<NationIcon tribeId={account.playerTribeId} size="md" />
 													)}
 												</div>
 												<div className="text-xs text-gray-500 mt-1">
@@ -119,11 +136,7 @@ export const GameAccountsPage = () => {
 											</div>
 											<button
 												type="button"
-												onClick={() => {
-													if (confirm('Are you sure you want to delete this account?')) {
-														deleteAccount.mutate({ id: account.id });
-													}
-												}}
+												onClick={() => handleDeleteClick(account.id)}
 												disabled={deleteAccount.isPending}
 												className="ml-4 px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded transition-colors disabled:opacity-50"
 											>
@@ -199,16 +212,14 @@ export const GameAccountsPage = () => {
 														{players.map(player => (
 															<li
 																key={player.id}
-																className="px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors"
+																className="px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors flex items-center gap-2"
 																onMouseDown={e => {
 																	e.preventDefault();
 																	handlePlayerSelect(player.name);
 																}}
 															>
-																{player.name}
-																{player.tribeId && (
-																	<span className="ml-2 text-gray-500">({player.tribeId})</span>
-																)}
+																<span>{player.name}</span>
+																{player.tribeId && <NationIcon tribeId={player.tribeId} size="md" />}
 															</li>
 														))}
 													</ul>
@@ -241,6 +252,22 @@ export const GameAccountsPage = () => {
 					</form>
 				</div>
 			</div>
+
+			{/* Delete Confirmation Modal */}
+			<ConfirmModal
+				isOpen={deleteModalOpen}
+				onClose={() => {
+					setDeleteModalOpen(false);
+					setAccountToDelete(null);
+				}}
+				onConfirm={handleDeleteConfirm}
+				title="Delete Account"
+				message="Are you sure you want to delete this account? This action cannot be undone."
+				confirmText="Delete"
+				cancelText="Cancel"
+				confirmVariant="danger"
+				isLoading={deleteAccount.isPending}
+			/>
 		</Layout>
 	);
 };
