@@ -1,8 +1,8 @@
 {
 	"$schema": "vscode://schemas/settings/user",
-		"typescript.tsdk": "node_modules/typescript/lib",
-		"typescript.enablePromptUseWorkspaceTsdk": true,
-		"editor.codeActionsOnSave": {
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"editor.codeActionsOnSave": {
 		"source.fixAll.biome": "explicit",
 	},
 	"editor.defaultFormatter": "biomejs.biome",

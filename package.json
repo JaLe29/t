@@ -8,8 +8,7 @@
 	],
 	"scripts": {
 		"lint": "yarn biome check",
-		"lint:fix": "yarn biome check --fix",
-		"build": "yarn workspaces foreach --all --parallel run build"
+		"lint:fix": "yarn biome check --fix"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.2",
