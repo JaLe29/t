@@ -28,8 +28,57 @@ export interface GetMapDataOptions {
 	date?: string;
 }
 
+export interface GameworldData {
+	name: string;
+	startTime: number;
+	speed: number;
+	speedTroops: number;
+	lastUpdateTime: number;
+	date: number;
+	version: string;
+}
+
+export interface VillageData {
+	villageId: string;
+	x: string;
+	y: string;
+	population: string;
+	name: string;
+	isMainVillage: boolean;
+	isCity: boolean;
+}
+
+export interface PlayerData {
+	playerId: string;
+	name: string;
+	tribeId?: string;
+	kingdomId?: string;
+	treasures: number;
+	role: number;
+	externalLoginToken?: string;
+	villages: VillageData[];
+}
+
+export interface MapCellData {
+	id: string;
+	x: string;
+	y: string;
+	resType: string;
+	oasis: string;
+	landscape: string;
+	kingdomId: string;
+}
+
+export interface MapDataStructure {
+	radius?: string;
+	cells?: MapCellData[];
+}
+
 export interface MapData {
-	[key: string]: unknown;
+	gameworld: GameworldData;
+	players: PlayerData[];
+	map: MapDataStructure;
+	landscapes: Record<string, string>;
 }
 
 export type GetMapDataResponse = MapData;

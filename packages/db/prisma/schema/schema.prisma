@@ -179,7 +179,7 @@ model MapCell {
   resType      String? // Typ zdrojů (může být "0" nebo číslo)
   oasis        String? // Typ oázy (může být "0" nebo číslo)
   landscape    String // ID landscape
-  kingdomId    Int        @default(0)
+  kingdomId    String     @default("0")
   scrapeItemId String
   scrapeItem   ScrapeItem @relation(fields: [scrapeItemId], references: [id], onDelete: Cascade)
   createdAt    DateTime   @default(now())

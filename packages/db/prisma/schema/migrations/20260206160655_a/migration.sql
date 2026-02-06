@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "MapCell" ALTER COLUMN "kingdomId" SET DEFAULT '0',
+ALTER COLUMN "kingdomId" SET DATA TYPE TEXT;
