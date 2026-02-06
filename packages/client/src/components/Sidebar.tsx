@@ -58,30 +58,6 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 				)}
 				{isOpen && (
 					<>
-						<div className="p-4 border-b border-gray-200 relative">
-							<button
-								type="button"
-								onClick={onToggle}
-								className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded transition-colors"
-								aria-label="Close sidebar"
-							>
-								<svg
-									className="w-5 h-5 text-gray-600"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									aria-hidden="true"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
-							</button>
-						</div>
-
 						{/* Navigation */}
 						<nav className="flex-1 overflow-y-auto py-4">
 							<div className="px-2 space-y-6">
@@ -153,6 +129,29 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 								</div>
 							</div>
 						</nav>
+						<div className="py-2 px-3 border-t border-gray-200 flex justify-end">
+							<button
+								type="button"
+								onClick={onToggle}
+								className="p-1 hover:bg-gray-100 rounded transition-colors"
+								aria-label="Close sidebar"
+							>
+								<svg
+									className="w-5 h-5 text-gray-600"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									aria-hidden="true"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M15 19l-7-7 7-7"
+									/>
+								</svg>
+							</button>
+						</div>
 					</>
 				)}
 			</aside>
