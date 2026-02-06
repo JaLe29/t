@@ -1,7 +1,8 @@
 // Service for processing incoming API payloads
 
-import type { ApiResponse } from './types';
 import { collectionTroopsService } from './collection-troops.service';
+import { playerService } from './player.service';
+import type { ApiResponse } from './types';
 
 class PayloadService {
 	/**
@@ -30,14 +31,18 @@ class PayloadService {
 						const processedVillage = collectionTroopsService.process(cacheItem);
 						Object.assign(village, processedVillage);
 					}
+
+					if (playerService.isPlayer(cacheItem)) {
+						const payload = playerService.process(cacheItem);
+						// biome-ignore lint/suspicious/noConsole: xx
+						console.log(payload);
+					}
 				});
 
 				if (Object.keys(village).length > 0) {
 					// biome-ignore lint/suspicious/noConsole: xx
-					console.log(village);
+					//console.log(village);
 				}
-				// Player:
-				//info o hraci
 			}
 		}
 	}
