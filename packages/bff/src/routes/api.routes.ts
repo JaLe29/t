@@ -75,20 +75,42 @@ export const registerApiRoutes = (fastifyServer: FastifyInstance, container: Awi
 				}
 			}
 
-			// Zpracování akcí podle typu
-			let result: unknown;
-
 			switch (action) {
 				case 'game.units.update': {
 					const validated = actionSchemas['game.units.update'].parse({ action, payload });
-					// Příklad: vytvoření uživatele
-					// const user = await prisma.user.create({ data: validated.payload });
-					result = { message: 'User would be created', data: validated.payload };
+
+					// Najít GameAccount podle gamePlayerId a userId
+					const gameAccount = await prisma.gameAccount.findFirst({
+						where: {
+							gamePlayerId: validated.payload.playerId,
+							userId: dbToken.userId,
+						},
+					});
+
+					if (!gameAccount) {
+						return reply.status(404).send({
+							error: 'Game account not found for this player',
+						});
+					}
+
+					// Uložit všechny záznamy jednotek pomocí createMany
+					if (validated.payload.villages.length > 0) {
+						await prisma.gameAccountUnitRecord.createMany({
+							data: validated.payload.villages.map((village) => ({
+								gameAccountId: gameAccount.id,
+								villageId: village.villageId,
+								units: village.units,
+							})),
+						});
+					}
+
 					break;
 				}
 				default:
 					// Neznámá akce - přijmeme ji, ale bez specifické validace
-					result = { message: `Unknown action '${action}' processed`, payload };
+					return reply.status(400).send({
+						error: `Invalid payload for action '${action}'`,
+					});
 			}
 
 			// Zaznamenání použití tokenu
@@ -102,9 +124,9 @@ export const registerApiRoutes = (fastifyServer: FastifyInstance, container: Awi
 			});
 
 			// Aktualizace lastUsedAt na tokenu
-			await prisma.token.update({
+			await prisma.tokenUsage.update({
 				where: { id: dbToken.id },
-				data: { lastUsedAt: new Date() },
+				data: { usedAt: new Date() },
 			});
 
 			return reply.status(200).send({

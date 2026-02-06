@@ -12,7 +12,23 @@ model GameAccount {
 
   gamePlayerId String?
 
+  // Relations
+  unitRecords GameAccountUnitRecord[]
+
   @@unique([userId, gameworldId])
   @@index([userId])
   @@index([gameworldId])
+}
+
+model GameAccountUnitRecord {
+  id            String      @id @default(uuid())
+  gameAccountId String
+  gameAccount   GameAccount @relation(fields: [gameAccountId], references: [id], onDelete: Cascade)
+  villageId     String
+  units         Int[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([gameAccountId])
+  @@index([villageId])
 }
