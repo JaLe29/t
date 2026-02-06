@@ -1,6 +1,7 @@
 // Service for processing incoming API payloads
 
 import type { ApiResponse } from './types';
+import { collectionTroopsService } from './collection-troops.service';
 
 class PayloadService {
 	/**
@@ -25,28 +26,9 @@ class PayloadService {
 
 				// Iterate through cache array
 				cacheValue.forEach(cacheItem => {
-					const name = cacheItem.name;
-					if (name.startsWith('Collection:Troops:')) {
-						const data = cacheItem.data;
-
-						for (const d of data.cache) {
-							const units: Record<string, number> = d.data.units;
-							const villageId = d.data.villageId;
-
-							if (!village[villageId]) {
-								village[villageId] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-							}
-
-							if (typeof units === 'object') {
-								const objectKeys = Object.keys(units);
-								objectKeys.forEach(key => {
-									village[villageId]![Number.parseInt(key, 10) - 1]! += Number.parseInt(
-										(units as any)[key as any]!,
-										10,
-									);
-								});
-							}
-						}
+					if (collectionTroopsService.isCollectionTroops(cacheItem)) {
+						const processedVillage = collectionTroopsService.process(cacheItem);
+						Object.assign(village, processedVillage);
 					}
 				});
 

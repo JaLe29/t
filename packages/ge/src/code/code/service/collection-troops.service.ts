@@ -34,11 +34,10 @@ class CollectionTroopsService {
 			if (typeof units === 'object') {
 				const objectKeys = Object.keys(units);
 				objectKeys.forEach(key => {
-					const unitIndex = Number.parseInt(key, 10) - 1;
-					const unitCount = Number.parseInt(String(units[key]), 10);
-					if (unitIndex >= 0 && unitIndex < village[villageId]!.length) {
-						village[villageId]![unitIndex]! += unitCount;
-					}
+					village[villageId]![Number.parseInt(key, 10) - 1]! += Number.parseInt(
+						(units as any)[key as any]!,
+						10,
+					);
 				});
 			}
 		}
