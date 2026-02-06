@@ -5,7 +5,9 @@ import { AuthGuard } from './components/AuthGuard';
 import { GameAccountsPage } from './pages/GameAccountsPage';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
+import { ProfilePage } from './pages/ProfilePage';
 import { RegisterPage } from './pages/RegisterPage';
+import { TokensPage } from './pages/TokensPage';
 import { trpc, trpcClient } from './utils/trpc';
 
 const queryClient = new QueryClient({
@@ -39,6 +41,22 @@ export const App: React.FC = () => {
 			element: (
 				<AuthGuard>
 					<GameAccountsPage />
+				</AuthGuard>
+			),
+		},
+		{
+			path: '/profile',
+			element: (
+				<AuthGuard>
+					<ProfilePage />
+				</AuthGuard>
+			),
+		},
+		{
+			path: '/tokens',
+			element: (
+				<AuthGuard>
+					<TokensPage />
 				</AuthGuard>
 			),
 		},

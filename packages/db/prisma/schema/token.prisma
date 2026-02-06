@@ -1,0 +1,29 @@
+// ----------------------
+// Token models
+
+model Token {
+  id         String       @id @default(uuid())
+  userId     String
+  token      String       @unique
+  name       String? // Optional name/description for the token
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  lastUsedAt DateTime?
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  usages     TokenUsage[]
+
+  @@index([userId])
+  @@index([token])
+}
+
+model TokenUsage {
+  id        String   @id @default(uuid())
+  tokenId   String
+  token     Token    @relation(fields: [tokenId], references: [id], onDelete: Cascade)
+  usedAt    DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  @@index([tokenId])
+  @@index([usedAt])
+}

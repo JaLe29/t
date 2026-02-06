@@ -64,6 +64,9 @@ model User {
   // Game relations
   gameAccounts GameAccount[]
 
+  // Token relations
+  tokens Token[]
+
   @@index([name])
   @@index([email])
 }
