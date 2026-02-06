@@ -1,12 +1,11 @@
-import { Header } from '../components/Header';
+import { Layout } from '../components/Layout';
 import { trpc } from '../utils/trpc';
 
 export const HomePage = () => {
-	const { data: meData, isLoading: isLoadingMe } = trpc.me.useQuery();
+	const { data: meData, isLoading: isLoadingMe } = trpc.user.me.useQuery();
 
 	return (
-		<div className="min-h-screen bg-white">
-			<Header />
+		<Layout>
 			<div className="flex items-center justify-center p-4 pt-8">
 				<div className="max-w-2xl w-full space-y-8">
 					<div className="bg-white rounded-2xl shadow-md border border-gray-200 p-12 text-center">
@@ -22,16 +21,16 @@ export const HomePage = () => {
 						</div>
 						
 						{isLoadingMe && (
-							<div className="text-gray-600">Načítání uživatele...</div>
+							<div className="text-gray-600">Loading user...</div>
 						)}
 						
 						{meData && (
 							<div className="space-y-4">
 								<div className="bg-gray-50 rounded-lg p-6">
-									<h2 className="text-2xl font-semibold text-gray-800 mb-4">Uživatel</h2>
+									<h2 className="text-2xl font-semibold text-gray-800 mb-4">User</h2>
 									<div className="text-left space-y-2">
 										<p className="text-gray-700">
-											<span className="font-semibold">Jméno:</span> {meData.user.name}
+											<span className="font-semibold">Name:</span> {meData.user.name}
 										</p>
 										{meData.user.email && (
 											<p className="text-gray-700">
@@ -48,6 +47,6 @@ export const HomePage = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</Layout>
 	);
 };

@@ -1,20 +1,12 @@
-import { isAuthed } from './middleware';
+import { gameAccountRouter } from './routers/gameAccount.router';
+import { gameworldRouter } from './routers/gameworld.router';
+import { userRouter } from './routers/user.router';
 import { t } from './trpc';
 
 export const appRouter = t.router({
-	hello: t.procedure.query(() => {
-		return { message: 'Hello from tRPC!' };
-	}),
-	me: t.procedure.use(isAuthed).query(async ({ ctx }) => {
-		const user = await ctx.prisma.user.findUnique({
-			where: { id: ctx.user.id },
-		});
-
-		return {
-			user: user,
-			session: ctx.session,
-		};
-	}),
+	user: userRouter,
+	gameworld: gameworldRouter,
+	gameAccount: gameAccountRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -10,39 +10,6 @@ import { createContext } from './trpc/context';
 import { type AppRouter, appRouter } from './trpc/router';
 
 const start = async (): Promise<void> => {
-	const r1 = await register({
-		url: 'https://cz2.kingdoms.com',
-		email: 'some@email.com',
-		siteName: 'someSiteName',
-		siteUrl: 'http://www.someSite.url',
-		isPublic: 'true',
-	});
-	// biome-ignore lint/suspicious/noConsole: debug logging
-	console.log(r1);
-	const r2 = await updateSiteData({
-		privateApiKey: r1.privateApiKey!,
-		url: 'https://cz2.kingdoms.com',
-		email: 'some@email.com',
-		siteName: 'someSiteName',
-		siteUrl: 'http://www.someSite.url',
-		isPublic: 'true',
-	});
-
-	// biome-ignore lint/suspicious/noConsole: debug logging
-	console.log(r2);
-
-	const r3 = await getMapData({
-		privateApiKey: r1.privateApiKey!,
-		url: 'https://cz2.kingdoms.com',
-	});
-
-	// biome-ignore lint/suspicious/noConsole: debug logging
-	console.log(r3);
-
-	require('fs').writeFileSync('r3.json', JSON.stringify(r3, null, 2));
-
-	process.exit(0);
-
 	const server = new Server({
 		cors: false, // CORS is registered manually in main.ts
 		appName: 'bff',

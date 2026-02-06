@@ -1,0 +1,18 @@
+// ----------------------
+// Game Account models
+
+model GameAccount {
+  id          String    @id @default(uuid())
+  userId      String
+  gameworldId String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gameworld   Gameworld @relation(fields: [gameworldId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  gamePlayerId String?
+
+  @@unique([userId, gameworldId])
+  @@index([userId])
+  @@index([gameworldId])
+}

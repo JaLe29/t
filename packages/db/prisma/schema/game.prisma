@@ -13,8 +13,9 @@ model Gameworld {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  scrapeItems ScrapeItem[]
-  apiKeys     TravianApiKeys?
+  scrapeItems  ScrapeItem[]
+  apiKeys      TravianApiKeys?
+  gameAccounts GameAccount[]
 
   @@index([name])
 }

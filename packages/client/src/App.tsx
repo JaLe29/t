@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthGuard } from './components/AuthGuard';
+import { GameAccountsPage } from './pages/GameAccountsPage';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -32,6 +33,14 @@ export const App: React.FC = () => {
 		{
 			path: '/register',
 			element: <RegisterPage />,
+		},
+		{
+			path: '/game-accounts',
+			element: (
+				<AuthGuard>
+					<GameAccountsPage />
+				</AuthGuard>
+			),
 		},
 		{
 			path: '*',
