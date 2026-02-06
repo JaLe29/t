@@ -4,10 +4,13 @@ console.log("✅ Content script loaded on kingdoms.com");
 chrome.runtime.sendMessage({ type: "KINGDOMS_PAGE_LOADED" });
 
 // Forward API response events from page (injected MAIN world) to background
-document.addEventListener("__EXT_API_RESPONSE__", ((e: CustomEvent) => {
-	const detail = e.detail as { type: string } & Record<string, unknown>;
-	const { type, ...payload } = detail;
-	chrome.runtime.sendMessage({ type, ...payload });
+document.addEventListener("__EXT_API_RESPONSE__", ((e: Event) => {
+	const customEvent = e as CustomEvent;
+	if (customEvent.detail) {
+		const detail = customEvent.detail as { type: string } & Record<string, unknown>;
+		const { type, ...payload } = detail;
+		chrome.runtime.sendMessage({ type, ...payload });
+	}
 }) as EventListener);
 
 // Intercept fetch requests to /api endpoints

@@ -1,4 +1,37 @@
 // Background service worker - manages icon badge and intercepts requests
+
+// Payload service for processing API responses
+class PayloadService {
+	/**
+	 * Process incoming API response
+	 */
+	processResponse(response: { url: string; status: number; data: unknown; method?: string }): void {
+		// Process cache array if present
+		this.processCache(response.data);
+	}
+
+	/**
+	 * Process cache array if present in response data
+	 */
+	private processCache(data: unknown): void {
+		// Check if data is an object and contains cache property
+		if (data && typeof data === "object" && "cache" in data) {
+			const cacheValue = (data as { cache?: unknown }).cache;
+
+			// Check if cache is an array
+			if (Array.isArray(cacheValue)) {
+				console.log(`📦 Found cache array with ${cacheValue.length} items`);
+
+				// Iterate through cache array
+				cacheValue.forEach((cacheItem, index) => {
+					console.log(`📦 Cache item [${index}]:`, cacheItem);
+				});
+			}
+		}
+	}
+}
+
+const payloadService = new PayloadService();
 chrome.tabs.onActivated.addListener((activeInfo) => {
 	updateBadge(activeInfo.tabId);
 });
@@ -22,10 +55,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		injectFetchInterceptor(sender.tab.id);
 	}
 	if (message.type === "API_RESPONSE") {
-		console.log("📥 API RESPONSE JSON:", {
+		// Process response through payload service
+		payloadService.processResponse({
 			url: message.url,
 			status: message.status,
 			data: message.data,
+			method: message.method,
 		});
 	}
 	if (message.type === "API_RESPONSE_TEXT") {
@@ -33,6 +68,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			url: message.url,
 			status: message.status,
 			data: message.data,
+		});
+		// You can also process text responses if needed
+		payloadService.processResponse({
+			url: message.url,
+			status: message.status,
+			data: message.data,
+			method: message.method,
 		});
 	}
 	if (message.type === "API_RESPONSE_ERROR") {
