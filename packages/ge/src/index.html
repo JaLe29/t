@@ -1,8 +1,38 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <style>
+      body {
+        width: 200px;
+        padding: 16px;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .status-indicator.active {
+        background-color: #00BC00;
+      }
+      .status-indicator.inactive {
+        background-color: #ef4444;
+      }
+      .status-text {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        font-size: 14px;
+      }
+    </style>
   </head>
   <body>
+    <div class="status-text">
+      <span id="statusDot" class="status-indicator inactive"></span>
+      <span id="statusText">Inactive</span>
+    </div>
     <h1>Travian</h1>
     <button id="actionButton">Click me</button>
     <script src="code/main.js"></script>

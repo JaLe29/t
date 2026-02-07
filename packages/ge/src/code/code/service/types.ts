@@ -4,6 +4,7 @@ export interface ApiResponse {
 	status: number;
 	data: unknown;
 	method?: string;
+	tabId?: number;
 }
 
 // Types for Player service
