@@ -304,22 +304,24 @@ export const ArmyGrowthChart: React.FC<ArmyGrowthChartProps> = ({ tribeId, histo
 				</div>
 			</div>
 
-			{/* Graf */}
-			<div className="w-full" style={{ height: '500px' }}>
+			{/* Chart */}
+			<div className="w-full" style={{ height: '350px' }}>
 				<ResponsiveContainer width="100%" height="100%">
-					<LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-						<CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+					<LineChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
+						<CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" opacity={0.3} />
 						<XAxis
 							dataKey="date"
 							stroke="#6b7280"
-							fontSize={12}
+							fontSize={11}
 							tick={{ fill: '#6b7280' }}
+							interval="preserveStartEnd"
 						/>
 						<YAxis
 							stroke="#6b7280"
-							fontSize={12}
+							fontSize={11}
 							tick={{ fill: '#6b7280' }}
 							tickFormatter={(value) => value.toLocaleString()}
+							width={60}
 						/>
 						<Tooltip content={<CustomTooltip />} />
 						{Array.from(selectedUnits).map((unitIndex) => {
@@ -332,43 +334,13 @@ export const ArmyGrowthChart: React.FC<ArmyGrowthChartProps> = ({ tribeId, histo
 									type="monotone"
 									dataKey={`unit${unitIndex}`}
 									stroke={unitColors[unitIndex]}
-									strokeWidth={3}
+									strokeWidth={2}
 									dot={false}
-									activeDot={{ r: 6, fill: unitColors[unitIndex] }}
+									activeDot={{ r: 4, fill: unitColors[unitIndex] }}
 									name={`Unit ${unitIndex + 1}`}
-								>
-									<LabelList
-										content={(props: any) => {
-											// Zobrazit ikonu pouze na posledním bodě
-											const isLast = props.index === chartData.length - 1;
-											if (!isLast) return null;
-											return (
-												<UnitIconLabel
-													x={props.x}
-													y={props.y}
-													value={props.value}
-													unitIndex={unitIndex}
-													tribeId={tribeId}
-												/>
-											);
-										}}
-									/>
-								</Line>
+								/>
 							);
 						})}
-						{selectedUnits.size > 0 && (
-							<Line
-								type="monotone"
-								dataKey="total"
-								stroke="#1f2937"
-								strokeWidth={2}
-								dot={false}
-								activeDot={{ r: 5 }}
-								name="Total"
-								strokeDasharray="5 5"
-								opacity={0.5}
-							/>
-						)}
 					</LineChart>
 				</ResponsiveContainer>
 			</div>
