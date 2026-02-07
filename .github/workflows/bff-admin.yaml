@@ -37,7 +37,7 @@ jobs:
               uses: docker/build-push-action@v5
               with:
                   context: .
-                  file: ./packages/bff/Dockerfile
+                  file: ./packages/admin-bff/Dockerfile
                   push: true
                   tags: ${{ vars.REGISTRY_URL }}:${{ env.TAG }}
                   cache-from: type=registry,ref=${{ vars.REGISTRY_URL }}:buildcache
