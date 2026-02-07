@@ -43,6 +43,6 @@ const start = async (): Promise<void> => {
 };
 
 start().catch(e => {
-	// biome-ignore lint/suspicious/noConsole: no reason to change this
+	// biome-ignore lint/suspicious/noConsole: no reason to change this.
 	console.error(e);
 });
