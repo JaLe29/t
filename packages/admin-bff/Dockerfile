@@ -14,7 +14,6 @@ COPY ./packages/admin-bff 											./packages/admin-bff
 COPY ./packages/admin-client										./packages/admin-client
 COPY ./packages/backend-shared										./packages/backend-shared
 COPY ./packages/db													./packages/db
-COPY ./packages/shared												./packages/shared
 
 ENV DATABASE_URL=dockerbuildisempty
 
@@ -35,9 +34,6 @@ COPY --from=build /usr/app/packages/admin-bff/dist					./packages/admin-bff/dist
 
 COPY --from=build /usr/app/packages/backend-shared/package.json	./packages/backend-shared/package.json
 COPY --from=build /usr/app/packages/backend-shared/dist			./packages/backend-shared/dist
-
-COPY --from=build /usr/app/packages/shared/package.json			./packages/shared/package.json
-COPY --from=build /usr/app/packages/shared/dist					./packages/shared/dist
 
 COPY --from=build /usr/app/packages/admin-client/dist				./packages/admin-client/dist
 
