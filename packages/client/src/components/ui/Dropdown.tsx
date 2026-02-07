@@ -45,9 +45,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
 	// Filter options based on search query
 	const filteredOptions = searchable
-		? options.filter(option =>
-				option.label.toLowerCase().includes(searchQuery.toLowerCase()),
-			)
+		? options.filter(option => option.label.toLowerCase().includes(searchQuery.toLowerCase()))
 		: options;
 
 	// Reset search when dropdown closes
@@ -138,18 +136,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
 						viewBox="0 0 24 24"
 						aria-hidden="true"
 					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M19 9l-7 7-7-7"
-						/>
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
 					</svg>
 				</button>
 
-				{isLoading && (
-					<p className="mt-1 text-sm text-gray-500">Loading...</p>
-				)}
+				{isLoading && <p className="mt-1 text-sm text-gray-500">Loading...</p>}
 
 				{/* Dropdown Menu */}
 				{isOpen && !isLoading && (
@@ -196,9 +187,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
 								</div>
 							) : (
 								<div className="p-3 text-sm text-gray-500">
-									{searchable && searchQuery
-										? 'No results found'
-										: 'No options available'}
+									{searchable && searchQuery ? 'No results found' : 'No options available'}
 								</div>
 							)}
 						</div>

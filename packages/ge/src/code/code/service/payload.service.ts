@@ -47,7 +47,7 @@ class PayloadService {
 					if (playerService.isPlayer(cacheItem)) {
 						const payload = playerService.process(cacheItem);
 						// Store current player in storage for this tab
-						playerService.setCurrentPlayer(payload, tabId).catch((error) => {
+						playerService.setCurrentPlayer(payload, tabId).catch(error => {
 							console.error('Failed to store current player:', error);
 						});
 					}

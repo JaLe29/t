@@ -1,8 +1,8 @@
+import dayjs from 'dayjs';
 import type React from 'react';
 import { useMemo, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
+import { CartesianGrid, LabelList, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { UnitIcon } from '../ui/UnitIcon';
-import dayjs from 'dayjs';
 
 interface HistoryDataPoint {
 	date: string;
@@ -40,13 +40,13 @@ const unitColors = [
 ];
 
 // Vlastní label s ikonou jednotky
-const UnitIconLabel: React.FC<{ x?: number; y?: number; value?: number; unitIndex: number; tribeId: string | null }> = ({
-	x,
-	y,
-	value,
-	unitIndex,
-	tribeId,
-}) => {
+const UnitIconLabel: React.FC<{
+	x?: number;
+	y?: number;
+	value?: number;
+	unitIndex: number;
+	tribeId: string | null;
+}> = ({ x, y, value, unitIndex, tribeId }) => {
 	if (x === undefined || y === undefined || !value || value === 0) {
 		return null;
 	}
@@ -112,7 +112,7 @@ export const ArmyGrowthChart: React.FC<ArmyGrowthChartProps> = ({ tribeId, histo
 			};
 
 			// Přidat data pro každý typ jednotky (pouze vybrané)
-			UNIT_INDICES.forEach((unitIndex) => {
+			UNIT_INDICES.forEach(unitIndex => {
 				if (selectedUnits.has(unitIndex)) {
 					dataPoint[`unit${unitIndex}`] = point.units[unitIndex] || 0;
 				} else {
@@ -146,11 +146,9 @@ export const ArmyGrowthChart: React.FC<ArmyGrowthChartProps> = ({ tribeId, histo
 
 		return (
 			<div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 min-w-[200px]">
-				<p className="font-semibold text-gray-900 mb-2 text-sm">
-					{dayjs(data.fullDate).format('DD.MM.YYYY')}
-				</p>
+				<p className="font-semibold text-gray-900 mb-2 text-sm">{dayjs(data.fullDate).format('DD.MM.YYYY')}</p>
 				<div className="space-y-1">
-					{Array.from(selectedUnits).map((unitIndex) => {
+					{Array.from(selectedUnits).map(unitIndex => {
 						const value = data[`unit${unitIndex}`] as number;
 						if (value === 0) return null;
 						return (
@@ -161,9 +159,7 @@ export const ArmyGrowthChart: React.FC<ArmyGrowthChartProps> = ({ tribeId, histo
 						);
 					})}
 					<div className="pt-2 mt-2 border-t border-gray-200">
-						<span className="text-gray-900 font-bold text-sm">
-							Total: {selectedTotal.toLocaleString()}
-						</span>
+						<span className="text-gray-900 font-bold text-sm">Total: {selectedTotal.toLocaleString()}</span>
 					</div>
 				</div>
 			</div>
@@ -242,7 +238,7 @@ export const ArmyGrowthChart: React.FC<ArmyGrowthChartProps> = ({ tribeId, histo
 						</div>
 					</div>
 					<div className="flex flex-wrap gap-2">
-						{UNIT_INDICES.map((unitIndex) => {
+						{UNIT_INDICES.map(unitIndex => {
 							const hasData = history.some(point => (point.units[unitIndex] || 0) > 0);
 							if (!hasData) return null;
 
@@ -286,7 +282,7 @@ export const ArmyGrowthChart: React.FC<ArmyGrowthChartProps> = ({ tribeId, histo
 						</div>
 					</div>
 					<div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto">
-						{villages.map((village) => (
+						{villages.map(village => (
 							<button
 								key={village.villageId}
 								type="button"
@@ -320,11 +316,11 @@ export const ArmyGrowthChart: React.FC<ArmyGrowthChartProps> = ({ tribeId, histo
 							stroke="#6b7280"
 							fontSize={11}
 							tick={{ fill: '#6b7280' }}
-							tickFormatter={(value) => value.toLocaleString()}
+							tickFormatter={value => value.toLocaleString()}
 							width={60}
 						/>
 						<Tooltip content={<CustomTooltip />} />
-						{Array.from(selectedUnits).map((unitIndex) => {
+						{Array.from(selectedUnits).map(unitIndex => {
 							const hasData = filteredHistory.some(point => (point.units[unitIndex] || 0) > 0);
 							if (!hasData) return null;
 

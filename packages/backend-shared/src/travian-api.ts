@@ -117,9 +117,7 @@ export async function register(options: RegisterOptions): Promise<RegisterRespon
 /**
  * Aktualizuje data webu v Travian API
  */
-export async function updateSiteData(
-	options: UpdateSiteDataOptions,
-): Promise<UpdateSiteDataResponse> {
+export async function updateSiteData(options: UpdateSiteDataOptions): Promise<UpdateSiteDataResponse> {
 	const url = new URL('/api/external.php', options.url);
 	url.searchParams.set('action', 'updateSiteData');
 	url.searchParams.set('privateApiKey', options.privateApiKey);

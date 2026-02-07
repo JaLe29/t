@@ -16,5 +16,4 @@ export const sendRequest = async (body: any) => {
 		console.error('Error sending request:', error);
 		throw error;
 	}
-
 };

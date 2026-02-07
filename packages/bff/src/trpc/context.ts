@@ -1,6 +1,6 @@
 import type { PrismaClient } from '@prisma/client';
-import type { AwilixContainer } from 'awilix';
 import type { CreateFastifyContextOptions } from '@trpc/server/adapters/fastify';
+import type { AwilixContainer } from 'awilix';
 import type { Auth } from '../auth';
 import type { Container } from '../container';
 

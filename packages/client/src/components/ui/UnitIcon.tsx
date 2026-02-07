@@ -26,12 +26,7 @@ const getUnitIconPath = (tribeId: string | null | undefined, unitIndex: number):
 	return `/icons/units/1/${unitIndex}.png`;
 };
 
-export const UnitIcon: React.FC<UnitIconProps> = ({
-	tribeId,
-	unitIndex,
-	size = 'md',
-	className = '',
-}) => {
+export const UnitIcon: React.FC<UnitIconProps> = ({ tribeId, unitIndex, size = 'md', className = '' }) => {
 	const sizeClass = sizeClasses[size];
 	const iconPath = getUnitIconPath(tribeId, unitIndex);
 

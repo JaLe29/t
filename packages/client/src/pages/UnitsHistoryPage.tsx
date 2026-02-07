@@ -4,16 +4,15 @@ import { trpc } from '../utils/trpc';
 
 export const UnitsHistoryPage = () => {
 	const { activeAccountId } = useGameAccountStore();
-	const { data: unitsHistoryData, isLoading: isLoadingHistory } =
-		trpc.gameAccount.getUnitsHistory.useQuery(
-			{
-				gameAccountId: activeAccountId!,
-				days: 30,
-			},
-			{
-				enabled: !!activeAccountId,
-			},
-		);
+	const { data: unitsHistoryData, isLoading: isLoadingHistory } = trpc.gameAccount.getUnitsHistory.useQuery(
+		{
+			gameAccountId: activeAccountId!,
+			days: 30,
+		},
+		{
+			enabled: !!activeAccountId,
+		},
+	);
 
 	if (!activeAccountId) {
 		return (

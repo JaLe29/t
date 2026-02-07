@@ -63,8 +63,8 @@ class PlayerService {
 	 * Get all stored players (for all tabs)
 	 */
 	async getAllPlayers(): Promise<Map<number, PlayerPayload>> {
-		return new Promise((resolve) => {
-			chrome.storage.local.get(null, (items) => {
+		return new Promise(resolve => {
+			chrome.storage.local.get(null, items => {
 				const players = new Map<number, PlayerPayload>();
 				for (const [key, value] of Object.entries(items)) {
 					if (key.startsWith(CURRENT_PLAYER_STORAGE_KEY_PREFIX)) {

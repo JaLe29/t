@@ -6,7 +6,7 @@ export interface Container {
 	prisma: PrismaClient;
 }
 
-export const createDiContainer = async (): Promise<AwilixContainer<Container>> => {
+export const createDiContainer = (): AwilixContainer<Container> => {
 	const container = createContainer<Container>({
 		injectionMode: InjectionMode.CLASSIC,
 	});

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useGameAccountStore } from '../stores/gameAccount.store';
+import { useSession } from '../utils/auth';
 import { trpc } from '../utils/trpc';
 import { NationIcon } from './ui/NationIcon';
-import { useSession } from '../utils/auth';
 
 interface SidebarProps {
 	isOpen: boolean;
@@ -22,20 +22,14 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 	const gameAccountMenuRef = useRef<HTMLDivElement>(null);
 
 	const { activeAccountId, setActiveAccountId } = useGameAccountStore();
-	const { data: accounts, isLoading: isLoadingAccounts } = trpc.gameAccount.list.useQuery(
-		undefined,
-		{
-			enabled: !!session,
-		},
-	);
+	const { data: accounts, isLoading: isLoadingAccounts } = trpc.gameAccount.list.useQuery(undefined, {
+		enabled: !!session,
+	});
 
 	// Close game account menu when clicking outside
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				gameAccountMenuRef.current &&
-				!gameAccountMenuRef.current.contains(event.target as Node)
-			) {
+			if (gameAccountMenuRef.current && !gameAccountMenuRef.current.contains(event.target as Node)) {
 				setIsGameAccountMenuOpen(false);
 			}
 		};
@@ -142,9 +136,11 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 										onClick={() => setIsGameAccountMenuOpen(!isGameAccountMenuOpen)}
 										className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
 									>
-										{activeAccount && 'playerTribeId' in activeAccount && activeAccount.playerTribeId && (
-											<NationIcon tribeId={activeAccount.playerTribeId} size="sm" />
-										)}
+										{activeAccount &&
+											'playerTribeId' in activeAccount &&
+											activeAccount.playerTribeId && (
+												<NationIcon tribeId={activeAccount.playerTribeId} size="sm" />
+											)}
 										<div className="flex-1 min-w-0 text-left">
 											<div className="text-sm font-medium text-gray-900 truncate">
 												{(() => {
@@ -182,7 +178,9 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 										<div className="absolute left-0 right-0 mt-1 bg-glass-strong rounded-lg shadow-xl border border-gray-200 z-20 max-h-64 overflow-y-auto">
 											<div className="py-1">
 												<div className="px-4 py-2 border-b border-gray-200">
-													<p className="text-xs font-semibold text-gray-500 uppercase">Game Accounts</p>
+													<p className="text-xs font-semibold text-gray-500 uppercase">
+														Game Accounts
+													</p>
 												</div>
 												{isLoadingAccounts && (
 													<div className="px-4 py-2 text-sm text-gray-500">Načítání...</div>
@@ -190,7 +188,8 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 												{!isLoadingAccounts && accounts.length === 0 && (
 													<div className="px-4 py-2 text-sm text-gray-500">Žádné účty</div>
 												)}
-												{!isLoadingAccounts && accounts.length > 0 &&
+												{!isLoadingAccounts &&
+													accounts.length > 0 &&
 													accounts.map(account => (
 														<button
 															type="button"
@@ -209,7 +208,9 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 																<NationIcon tribeId={account.playerTribeId} size="sm" />
 															)}
 															<div className="flex-1 min-w-0">
-																<div className="font-medium truncate">{account.gameworld.name}</div>
+																<div className="font-medium truncate">
+																	{account.gameworld.name}
+																</div>
 																{account.playerName && (
 																	<div className="text-xs text-gray-500 truncate">
 																		{account.playerName}
@@ -344,7 +345,6 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 									</div>
 								</div>
 
-
 								{/* Account */}
 								<div>
 									<p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
@@ -398,6 +398,39 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 												/>
 											</svg>
 											Tokens
+										</Link>
+									</div>
+								</div>
+
+								{/* Other */}
+								<div>
+									<p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+										Other
+									</p>
+									<div className="space-y-1">
+										<Link
+											to="/gameworld-request"
+											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+												isActive('/gameworld-request')
+													? 'bg-primary/10 text-primary'
+													: 'text-gray-700 hover:bg-gray-50'
+											}`}
+										>
+											<svg
+												className="w-5 h-5"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+												aria-hidden="true"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth={2}
+													d="M12 4v16m8-8H4"
+												/>
+											</svg>
+											Request for Server
 										</Link>
 									</div>
 								</div>

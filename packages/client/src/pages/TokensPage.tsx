@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Layout } from '../components/Layout';
+import { PageWrapper } from '../components/PageWrapper';
 import { Button } from '../components/ui/Button';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
@@ -54,7 +55,7 @@ export const TokensPage = () => {
 
 	return (
 		<Layout>
-			<div className="p-8 max-w-4xl">
+			<PageWrapper>
 				<div className="mb-8">
 					<h1 className="text-3xl font-bold text-gray-900 mb-2">API Tokens</h1>
 					<p className="text-gray-600">Manage your API tokens for accessing the API</p>
@@ -198,7 +199,7 @@ export const TokensPage = () => {
 					cancelText="Cancel"
 					confirmVariant="danger"
 				/>
-			</div>
+			</PageWrapper>
 		</Layout>
 	);
 };

@@ -7,8 +7,8 @@ class StorageService {
 	 * Get value from storage
 	 */
 	async get<T>(key: string): Promise<T | undefined> {
-		return new Promise((resolve) => {
-			chrome.storage.local.get([this.getStorageKey(key)], (result) => {
+		return new Promise(resolve => {
+			chrome.storage.local.get([this.getStorageKey(key)], result => {
 				resolve(result[this.getStorageKey(key)] as T | undefined);
 			});
 		});
@@ -18,7 +18,7 @@ class StorageService {
 	 * Set value in storage
 	 */
 	async set<T>(key: string, value: T): Promise<void> {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			chrome.storage.local.set({ [this.getStorageKey(key)]: value }, () => {
 				resolve();
 			});
@@ -29,7 +29,7 @@ class StorageService {
 	 * Remove value from storage
 	 */
 	async remove(key: string): Promise<void> {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			chrome.storage.local.remove([this.getStorageKey(key)], () => {
 				resolve();
 			});
@@ -40,7 +40,7 @@ class StorageService {
 	 * Clear all storage
 	 */
 	async clear(): Promise<void> {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			chrome.storage.local.clear(() => {
 				resolve();
 			});

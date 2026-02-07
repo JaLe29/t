@@ -1,8 +1,8 @@
+import dayjs from 'dayjs';
 import { useMemo } from 'react';
 import { UnitIcon } from '../components/ui/UnitIcon';
 import { useGameAccountStore } from '../stores/gameAccount.store';
 import { trpc } from '../utils/trpc';
-import dayjs from 'dayjs';
 
 export const UnitsOverviewPage = () => {
 	const { activeAccountId } = useGameAccountStore();
@@ -38,9 +38,7 @@ export const UnitsOverviewPage = () => {
 			return null;
 		}
 
-		const dates = unitsData.villages
-			.map(v => v.unitsUpdatedAt)
-			.filter((date): date is Date => date !== null);
+		const dates = unitsData.villages.map(v => v.unitsUpdatedAt).filter((date): date is Date => date !== null);
 
 		if (dates.length === 0) {
 			return null;

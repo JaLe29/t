@@ -10,21 +10,16 @@ export const HomePage = () => {
 				<div className="max-w-2xl w-full space-y-8">
 					<div className="card-glass rounded-2xl p-12 text-center">
 						<h1 className="text-5xl font-bold text-gray-900 mb-8">Hello World</h1>
-						
+
 						<div className="mb-8">
-							<button
-								type="button"
-								className="btn-primary py-3 px-8 text-lg"
-							>
+							<button type="button" className="btn-primary py-3 px-8 text-lg">
 								Hello World
 							</button>
 						</div>
-						
-						{isLoadingMe && (
-							<div className="text-gray-600">Loading user...</div>
-						)}
-						
-						{meData && meData.user && (
+
+						{isLoadingMe && <div className="text-gray-600">Loading user...</div>}
+
+						{meData?.user && (
 							<div className="space-y-4">
 								<div className="bg-gray-50 rounded-lg p-6">
 									<h2 className="text-2xl font-semibold text-gray-800 mb-4">User</h2>

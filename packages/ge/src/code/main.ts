@@ -15,7 +15,7 @@ function updateStatusIndicator() {
 	}
 
 	// Get current active tab
-	chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+	chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
 		if (tabs[0]?.url) {
 			const url = tabs[0].url;
 			const isKingdomsDomain = url.includes('kingdoms.com');

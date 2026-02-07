@@ -4,7 +4,7 @@ import { playerService } from './code/service/player.service';
 
 function updateBadge(tabId?: number) {
 	if (tabId !== undefined) {
-		chrome.tabs.get(tabId, (tab) => {
+		chrome.tabs.get(tabId, tab => {
 			if (tab.url?.includes('kingdoms.com')) {
 				chrome.action.setBadgeText({ text: '●', tabId });
 				chrome.action.setBadgeBackgroundColor({ color: '#00BC00', tabId });
@@ -15,8 +15,8 @@ function updateBadge(tabId?: number) {
 		});
 	} else {
 		// Update for all tabs
-		chrome.tabs.query({}, (tabs) => {
-			tabs.forEach((tab) => {
+		chrome.tabs.query({}, tabs => {
+			tabs.forEach(tab => {
 				if (tab.id !== undefined) {
 					if (tab.url?.includes('kingdoms.com')) {
 						chrome.action.setBadgeText({ text: '●', tabId: tab.id });
@@ -43,13 +43,13 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	}
 });
 
-chrome.tabs.onActivated.addListener((activeInfo) => {
+chrome.tabs.onActivated.addListener(activeInfo => {
 	updateBadge(activeInfo.tabId);
 });
 
 // Clean up player data when tab is closed
-chrome.tabs.onRemoved.addListener((tabId) => {
-	playerService.clearCurrentPlayer(tabId).catch((error) => {
+chrome.tabs.onRemoved.addListener(tabId => {
+	playerService.clearCurrentPlayer(tabId).catch(error => {
 		console.error('Failed to clear player data for closed tab:', error);
 	});
 });

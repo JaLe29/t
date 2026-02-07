@@ -4,6 +4,8 @@ globs:
 alwaysApply: true
 ---
 
+- Always use English language for any texting
+
 # --- Core Principles & Tech Stack ---
 - Our project is a Single Page Application (SPA) built with React and Vite.
 - We use tRPC for end-to-end typesafe APIs.

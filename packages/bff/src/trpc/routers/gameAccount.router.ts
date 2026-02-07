@@ -135,56 +135,56 @@ export const gameAccountRouter = t.router({
 			},
 		});
 
-			// Get player names - find player by playerId (Travian API ID) in latest scrape item
-			const accountsWithPlayerNames = await Promise.all(
-				gameAccounts.map(async account => {
-					if (!account.gamePlayerId) {
-						return {
-							...account,
-							playerName: null,
-							playerTribeId: null,
-						};
-					}
-
-					// Find latest scrape item for this gameworld
-					const lastScrapeItem = await ctx.prisma.scrapeItem.findFirst({
-						where: {
-							gameworldId: account.gameworldId,
-							isProcessed: true,
-							isDryRun: false,
-						},
-						orderBy: {
-							createdAt: 'desc',
-						},
-					});
-
-					if (!lastScrapeItem) {
-						return {
-							...account,
-							playerName: null,
-							playerTribeId: null,
-						};
-					}
-
-					// Find player by playerId (Travian API ID) in latest scrape item
-					const player = await ctx.prisma.player.findFirst({
-						where: {
-							scrapeItemId: lastScrapeItem.id,
-							playerId: account.gamePlayerId,
-						},
-						select: {
-							name: true,
-							tribeId: true,
-						},
-					});
-
+		// Get player names - find player by playerId (Travian API ID) in latest scrape item
+		const accountsWithPlayerNames = await Promise.all(
+			gameAccounts.map(async account => {
+				if (!account.gamePlayerId) {
 					return {
 						...account,
-						playerName: player?.name || null,
-						playerTribeId: player?.tribeId || null,
+						playerName: null,
+						playerTribeId: null,
 					};
-				}),
-			);
+				}
+
+				// Find latest scrape item for this gameworld
+				const lastScrapeItem = await ctx.prisma.scrapeItem.findFirst({
+					where: {
+						gameworldId: account.gameworldId,
+						isProcessed: true,
+						isDryRun: false,
+					},
+					orderBy: {
+						createdAt: 'desc',
+					},
+				});
+
+				if (!lastScrapeItem) {
+					return {
+						...account,
+						playerName: null,
+						playerTribeId: null,
+					};
+				}
+
+				// Find player by playerId (Travian API ID) in latest scrape item
+				const player = await ctx.prisma.player.findFirst({
+					where: {
+						scrapeItemId: lastScrapeItem.id,
+						playerId: account.gamePlayerId,
+					},
+					select: {
+						name: true,
+						tribeId: true,
+					},
+				});
+
+				return {
+					...account,
+					playerName: player?.name || null,
+					playerTribeId: player?.tribeId || null,
+				};
+			}),
+		);
 
 		return accountsWithPlayerNames;
 	}),
@@ -310,7 +310,7 @@ export const gameAccountRouter = t.router({
 			});
 
 			// Group unit records by villageId and get the latest one for each village
-			const latestUnitRecords = new Map<string, typeof unitRecords[0]>();
+			const latestUnitRecords = new Map<string, (typeof unitRecords)[0]>();
 			for (const record of unitRecords) {
 				if (!latestUnitRecords.has(record.villageId)) {
 					latestUnitRecords.set(record.villageId, record);
@@ -383,7 +383,7 @@ export const gameAccountRouter = t.router({
 
 			// Group records by date (day) and village, then take the latest record for each village per day
 			// Použijeme updatedAt místo createdAt, protože updatedAt reprezentuje skutečný čas aktualizace
-			const dailyVillageRecords = new Map<string, Map<string, typeof unitRecords[0]>>();
+			const dailyVillageRecords = new Map<string, Map<string, (typeof unitRecords)[0]>>();
 
 			for (const record of unitRecords) {
 				// Použít updatedAt pro určení dne, protože to je čas skutečné aktualizace jednotek

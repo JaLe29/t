@@ -3,14 +3,15 @@ import type React from 'react';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { AuthGuard } from './components/AuthGuard';
 import { GameAccountsPage } from './pages/GameAccountsPage';
+import { GameworldRequestPage } from './pages/GameworldRequestPage';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { RegisterPage } from './pages/RegisterPage';
 import { TokensPage } from './pages/TokensPage';
-import { UnitsPage } from './pages/UnitsPage';
-import { UnitsOverviewPage } from './pages/UnitsOverviewPage';
 import { UnitsHistoryPage } from './pages/UnitsHistoryPage';
+import { UnitsOverviewPage } from './pages/UnitsOverviewPage';
+import { UnitsPage } from './pages/UnitsPage';
 import { trpc, trpcClient } from './utils/trpc';
 
 const queryClient = new QueryClient({
@@ -60,6 +61,14 @@ export const App: React.FC = () => {
 			element: (
 				<AuthGuard>
 					<TokensPage />
+				</AuthGuard>
+			),
+		},
+		{
+			path: '/gameworld-request',
+			element: (
+				<AuthGuard>
+					<GameworldRequestPage />
 				</AuthGuard>
 			),
 		},

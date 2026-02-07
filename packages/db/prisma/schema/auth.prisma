@@ -62,7 +62,8 @@ model User {
   accounts Account[]
 
   // Game relations
-  gameAccounts GameAccount[]
+  gameAccounts      GameAccount[]
+  gameworldRequests GameworldRequest[]
 
   // Token relations
   tokens Token[]
