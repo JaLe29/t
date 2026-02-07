@@ -10,7 +10,7 @@ on:
             - "packages/db/**"
             - "packages/bff/**"
             - "packages/client/**"
-            - ".github/workflows/bff.yml"
+            - ".github/workflows/bff.yaml"
 
 env:
     NODE_VERSION: "20.x"

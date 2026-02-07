@@ -1,4 +1,4 @@
-name: ⚙️ BFF workflow
+name: ⚙️ Admin BFF workflow
 
 on:
     push:
@@ -10,7 +10,7 @@ on:
             - "packages/db/**"
             - "packages/admin-bff/**"
             - "packages/admin-client/**"
-            - ".github/workflows/bff-admin.yml"
+            - ".github/workflows/bff-admin.yaml"
 
 env:
     NODE_VERSION: "20.x"
