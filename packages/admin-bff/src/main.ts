@@ -9,7 +9,7 @@ import { type AppRouter, appRouter } from './trpc/router';
 
 const start = async (): Promise<void> => {
 	const server = new Server({
-		cors: false, // CORS is registered manually in main.ts
+		cors: false, // CORS is registered manually in main.ts s
 		appName: 'admin-bff',
 		port: 3335,
 		serveStatic: true,
