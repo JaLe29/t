@@ -8,8 +8,8 @@ on:
             - "packages/backend-shared/**"
             - "packages/shared/**"
             - "packages/db/**"
-            - "packages/bff-admin/**"
-            - "packages/client-admin/**"
+            - "packages/admin-bff/**"
+            - "packages/admin-client/**"
             - ".github/workflows/bff-admin.yml"
 
 env:
