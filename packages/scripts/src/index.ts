@@ -8,10 +8,10 @@ import { getMapData, type PlayerData, register, updateSiteData } from '@t/backen
  * Testovací skripty pro databázi
  */
 
-const getGameWorld = async (prisma: PrismaClient) => {
+const getGameWorld = async (name: string, prisma: PrismaClient) => {
 	let gameWorld = await prisma.gameworld.findFirst({
 		where: {
-			name: 'CZ2',
+			name: name,
 		},
 		include: {
 			apiKeys: true,
@@ -21,7 +21,7 @@ const getGameWorld = async (prisma: PrismaClient) => {
 	if (!gameWorld) {
 		await prisma.gameworld.create({
 			data: {
-				name: 'CZ2',
+				name: name,
 				startTime: Math.floor(Date.now() / 1000),
 				speed: 1,
 				speedTroops: 1,
@@ -30,7 +30,7 @@ const getGameWorld = async (prisma: PrismaClient) => {
 		});
 		gameWorld = await prisma.gameworld.findFirst({
 			where: {
-				name: 'CZ2',
+				name: name,
 			},
 			include: {
 				apiKeys: true,
@@ -46,14 +46,14 @@ const main = async () => {
 	const adapter = new PrismaPg({ connectionString });
 	const prisma = new PrismaClient({ adapter });
 
-	try {
-		await prisma?.$connect();
+	await prisma?.$connect();
 
-		const tmp = await getGameWorld(prisma);
+	const start = async (name: string, url: string) => {
+		const tmp = await getGameWorld(name, prisma);
 
 		if (!tmp.apiKeys) {
 			const r1 = await register({
-				url: 'https://cz2.kingdoms.com',
+				url: url,
 				email: 'some@email.com',
 				siteName: 'someSiteName',
 				siteUrl: 'http://www.someSite.url',
@@ -62,7 +62,7 @@ const main = async () => {
 
 			await updateSiteData({
 				privateApiKey: r1.privateApiKey!,
-				url: 'https://cz2.kingdoms.com',
+				url: url,
 				email: 'some@email.com',
 				siteName: 'someSiteName',
 				siteUrl: 'http://www.someSite.url',
@@ -75,15 +75,12 @@ const main = async () => {
 			});
 		}
 
-		const gw = await getGameWorld(prisma);
+		const gw = await getGameWorld(name, prisma);
 
 		const mapData = await getMapData({
 			privateApiKey: gw.apiKeys!.privateApiKey!,
-			url: 'https://cz2.kingdoms.com',
+			url: url,
 		});
-
-		// biome-ignore lint/suspicious/noConsole: debug logging
-		require('fs').writeFileSync('mapData.json', JSON.stringify(mapData, null, 2));
 
 		// Parse mapData structure
 		const gameworldData = mapData.gameworld;
@@ -217,9 +214,10 @@ const main = async () => {
 		});
 		// biome-ignore lint/suspicious/noConsole: progress logging
 		console.log('ScrapeItem marked as processed');
-	} finally {
-		await prisma?.$disconnect();
-	}
+	};
+
+	await start('CZ2', 'https://cz2.kingdoms.com');
+	await start('CZ1X3', 'https://cz1x3.kingdoms.com');
 };
 
 main().catch(e => {

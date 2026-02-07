@@ -3,7 +3,7 @@
 
 model Gameworld {
   id          String   @id @default(uuid())
-  name        String   @unique
+  name        String
   startTime   Int // Unix timestamp
   speed       Float
   speedTroops Float
@@ -116,4 +116,18 @@ model MapCell {
   @@index([scrapeItemId])
   @@index([x, y])
   @@index([kingdomId])
+}
+
+model GameworldRequest {
+  id        String   @id @default(uuid())
+  name      String
+  status    String   @default("pending") // pending, approved, rejected
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([name])
 }

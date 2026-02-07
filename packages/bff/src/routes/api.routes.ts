@@ -14,6 +14,7 @@ const actionSchemas = {
 	'game.units.update': z.object({
 		action: z.literal('game.units.update'),
 		payload: z.object({
+			playerId: z.string().min(1),
 			villages: z.array(
 				z.object({
 					villageId: z.string().min(1),
@@ -82,6 +83,7 @@ export const registerApiRoutes = (fastifyServer: FastifyInstance, container: Awi
 					const gameAccount = await prisma.gameAccount.findFirst({
 						where: {
 							userId: dbToken.userId,
+							gamePlayerId: validated.payload.playerId,
 						},
 					});
 

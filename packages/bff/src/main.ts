@@ -1,5 +1,4 @@
 import cors from '@fastify/cors';
-import { getMapData, register, updateSiteData } from '@t/backend-shared';
 import type { CreateFastifyContextOptions, FastifyTRPCPluginOptions } from '@trpc/server/adapters/fastify';
 import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import { createAuth } from './auth';
@@ -20,7 +19,7 @@ const start = async (): Promise<void> => {
 	});
 
 	// Create DI container
-	const container = await createDiContainer();
+	const container = createDiContainer();
 	const prisma = container.cradle.prisma;
 	await prisma?.$connect();
 

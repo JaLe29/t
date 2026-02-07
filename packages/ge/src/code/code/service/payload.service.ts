@@ -11,13 +11,13 @@ class PayloadService {
 	 */
 	processResponse(response: ApiResponse): void {
 		// Process cache array if present
-		this.processCache(response.data);
+		this.processCache(response.data, response.tabId);
 	}
 
 	/**
 	 * Process cache array if present in response data
 	 */
-	private processCache(data: unknown): void {
+	private async processCache(data: unknown, tabId?: number): Promise<void> {
 		// Check if data is an object and contains cache property
 		if (data && typeof data === 'object' && 'cache' in data) {
 			const cacheValue = (data as { cache?: unknown }).cache;
@@ -45,23 +45,29 @@ class PayloadService {
 					}
 
 					if (playerService.isPlayer(cacheItem)) {
-						//const payload = playerService.process(cacheItem);
-						//console.log(payload);
+						const payload = playerService.process(cacheItem);
+						// Store current player in storage for this tab
+						playerService.setCurrentPlayer(payload, tabId).catch(error => {
+							console.error('Failed to store current player:', error);
+						});
 					}
 				});
 
 				// console.log(village);
 				if (Object.keys(village).length > 0) {
-					// biome-ignore lint/suspicious/noConsole: xx
-					console.log(village);
 					const array = Object.entries(village).map(([villageId, units]) => ({
 						villageId,
 						units,
 					}));
 
+					const player = await playerService.getCurrentPlayer(tabId);
+					if (!player) {
+						return;
+					}
 					sendRequest({
 						action: 'game.units.update',
 						payload: {
+							playerId: player?.playerId,
 							villages: array,
 						},
 					});

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useGameAccountStore } from '../stores/gameAccount.store';
+import { useSession } from '../utils/auth';
 import { trpc } from '../utils/trpc';
 import { NationIcon } from './ui/NationIcon';
-import { useSession } from '../utils/auth';
 
 interface SidebarProps {
 	isOpen: boolean;
@@ -15,23 +15,21 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 	const location = useLocation();
 	const { data: session } = useSession();
 	const [isGameAccountMenuOpen, setIsGameAccountMenuOpen] = useState(false);
+	const [isUnitsMenuOpen, setIsUnitsMenuOpen] = useState(() => {
+		// Auto-expand if on units page
+		return location.pathname.startsWith('/units');
+	});
 	const gameAccountMenuRef = useRef<HTMLDivElement>(null);
 
 	const { activeAccountId, setActiveAccountId } = useGameAccountStore();
-	const { data: accounts, isLoading: isLoadingAccounts } = trpc.gameAccount.list.useQuery(
-		undefined,
-		{
-			enabled: !!session,
-		},
-	);
+	const { data: accounts, isLoading: isLoadingAccounts } = trpc.gameAccount.list.useQuery(undefined, {
+		enabled: !!session,
+	});
 
 	// Close game account menu when clicking outside
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				gameAccountMenuRef.current &&
-				!gameAccountMenuRef.current.contains(event.target as Node)
-			) {
+			if (gameAccountMenuRef.current && !gameAccountMenuRef.current.contains(event.target as Node)) {
 				setIsGameAccountMenuOpen(false);
 			}
 		};
@@ -64,9 +62,23 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 		}
 	}, [accounts, activeAccountId, setActiveAccountId]);
 
+	// Auto-expand Units menu when on units page
+	useEffect(() => {
+		if (location.pathname.startsWith('/units')) {
+			setIsUnitsMenuOpen(true);
+		}
+	}, [location.pathname]);
+
 	const activeAccount = accounts?.find(acc => acc.id === activeAccountId);
 
-	const isActive = (path: string) => location.pathname === path;
+	const isActive = (path: string) => {
+		if (path === '/units') {
+			return location.pathname.startsWith('/units');
+		}
+		return location.pathname === path;
+	};
+
+	const isUnitsSubActive = (path: string) => location.pathname === path;
 
 	// Mobile backdrop with fade animation
 	const backdrop = (
@@ -124,9 +136,11 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 										onClick={() => setIsGameAccountMenuOpen(!isGameAccountMenuOpen)}
 										className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
 									>
-										{activeAccount && 'playerTribeId' in activeAccount && activeAccount.playerTribeId && (
-											<NationIcon tribeId={activeAccount.playerTribeId} size="sm" />
-										)}
+										{activeAccount &&
+											'playerTribeId' in activeAccount &&
+											activeAccount.playerTribeId && (
+												<NationIcon tribeId={activeAccount.playerTribeId} size="sm" />
+											)}
 										<div className="flex-1 min-w-0 text-left">
 											<div className="text-sm font-medium text-gray-900 truncate">
 												{(() => {
@@ -164,7 +178,9 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 										<div className="absolute left-0 right-0 mt-1 bg-glass-strong rounded-lg shadow-xl border border-gray-200 z-20 max-h-64 overflow-y-auto">
 											<div className="py-1">
 												<div className="px-4 py-2 border-b border-gray-200">
-													<p className="text-xs font-semibold text-gray-500 uppercase">Game Accounts</p>
+													<p className="text-xs font-semibold text-gray-500 uppercase">
+														Game Accounts
+													</p>
 												</div>
 												{isLoadingAccounts && (
 													<div className="px-4 py-2 text-sm text-gray-500">Načítání...</div>
@@ -172,7 +188,8 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 												{!isLoadingAccounts && accounts.length === 0 && (
 													<div className="px-4 py-2 text-sm text-gray-500">Žádné účty</div>
 												)}
-												{!isLoadingAccounts && accounts.length > 0 &&
+												{!isLoadingAccounts &&
+													accounts.length > 0 &&
 													accounts.map(account => (
 														<button
 															type="button"
@@ -191,7 +208,9 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 																<NationIcon tribeId={account.playerTribeId} size="sm" />
 															)}
 															<div className="flex-1 min-w-0">
-																<div className="font-medium truncate">{account.gameworld.name}</div>
+																<div className="font-medium truncate">
+																	{account.gameworld.name}
+																</div>
 																{account.playerName && (
 																	<div className="text-xs text-gray-500 truncate">
 																		{account.playerName}
@@ -257,33 +276,74 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 											</svg>
 											Game Accounts
 										</Link>
-										<Link
-											to="/units"
-											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-												isActive('/units')
-													? 'bg-primary/10 text-primary'
-													: 'text-gray-700 hover:bg-gray-50'
-											}`}
-										>
-											<svg
-												className="w-5 h-5"
-												fill="none"
-												stroke="currentColor"
-												viewBox="0 0 24 24"
-												aria-hidden="true"
+										{/* Units with submenu */}
+										<div>
+											<button
+												type="button"
+												onClick={() => setIsUnitsMenuOpen(!isUnitsMenuOpen)}
+												className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+													isActive('/units')
+														? 'bg-primary/10 text-primary'
+														: 'text-gray-700 hover:bg-gray-50'
+												}`}
 											>
-												<path
-													strokeLinecap="round"
-													strokeLinejoin="round"
-													strokeWidth={2}
-													d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-												/>
-											</svg>
-											Units
-										</Link>
+												<svg
+													className="w-5 h-5"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+													aria-hidden="true"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														strokeWidth={2}
+														d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+													/>
+												</svg>
+												<span className="flex-1 text-left">Units</span>
+												<svg
+													className={`w-4 h-4 transition-transform ${isUnitsMenuOpen ? 'rotate-90' : ''}`}
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+													aria-hidden="true"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														strokeWidth={2}
+														d="M9 5l7 7-7 7"
+													/>
+												</svg>
+											</button>
+											{isUnitsMenuOpen && (
+												<div className="ml-4 mt-1 space-y-1">
+													<Link
+														to="/units/overview"
+														className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+															isUnitsSubActive('/units/overview')
+																? 'bg-primary/10 text-primary font-medium'
+																: 'text-gray-600 hover:bg-gray-50'
+														}`}
+													>
+														<span>Overview</span>
+													</Link>
+													<Link
+														to="/units/history"
+														className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+															isUnitsSubActive('/units/history')
+																? 'bg-primary/10 text-primary font-medium'
+																: 'text-gray-600 hover:bg-gray-50'
+														}`}
+													>
+														<span>History</span>
+													</Link>
+												</div>
+											)}
+										</div>
 									</div>
 								</div>
-
 
 								{/* Account */}
 								<div>
@@ -338,6 +398,39 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 												/>
 											</svg>
 											Tokens
+										</Link>
+									</div>
+								</div>
+
+								{/* Other */}
+								<div>
+									<p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+										Other
+									</p>
+									<div className="space-y-1">
+										<Link
+											to="/gameworld-request"
+											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+												isActive('/gameworld-request')
+													? 'bg-primary/10 text-primary'
+													: 'text-gray-700 hover:bg-gray-50'
+											}`}
+										>
+											<svg
+												className="w-5 h-5"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+												aria-hidden="true"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth={2}
+													d="M12 4v16m8-8H4"
+												/>
+											</svg>
+											Request for Server
 										</Link>
 									</div>
 								</div>

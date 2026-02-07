@@ -10,9 +10,9 @@ interface GameAccountStore {
 
 export const useGameAccountStore = create<GameAccountStore>()(
 	persist(
-		(set) => ({
+		set => ({
 			activeAccountId: null,
-			setActiveAccountId: (accountId) => {
+			setActiveAccountId: accountId => {
 				set({ activeAccountId: accountId });
 			},
 		}),

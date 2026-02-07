@@ -12,11 +12,7 @@ const sizeClasses = {
 	lg: 'w-12 h-12',
 };
 
-export const NationIcon: React.FC<NationIconProps> = ({
-	tribeId,
-	size = 'md',
-	className = '',
-}) => {
+export const NationIcon: React.FC<NationIconProps> = ({ tribeId, size = 'md', className = '' }) => {
 	if (!tribeId) {
 		return null;
 	}

@@ -1,13 +1,16 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { AuthGuard } from './components/AuthGuard';
 import { GameAccountsPage } from './pages/GameAccountsPage';
+import { GameworldRequestPage } from './pages/GameworldRequestPage';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { RegisterPage } from './pages/RegisterPage';
 import { TokensPage } from './pages/TokensPage';
+import { UnitsHistoryPage } from './pages/UnitsHistoryPage';
+import { UnitsOverviewPage } from './pages/UnitsOverviewPage';
 import { UnitsPage } from './pages/UnitsPage';
 import { trpc, trpcClient } from './utils/trpc';
 
@@ -62,12 +65,34 @@ export const App: React.FC = () => {
 			),
 		},
 		{
+			path: '/gameworld-request',
+			element: (
+				<AuthGuard>
+					<GameworldRequestPage />
+				</AuthGuard>
+			),
+		},
+		{
 			path: '/units',
 			element: (
 				<AuthGuard>
 					<UnitsPage />
 				</AuthGuard>
 			),
+			children: [
+				{
+					index: true,
+					element: <Navigate to="/units/overview" replace />,
+				},
+				{
+					path: 'overview',
+					element: <UnitsOverviewPage />,
+				},
+				{
+					path: 'history',
+					element: <UnitsHistoryPage />,
+				},
+			],
 		},
 		{
 			path: '*',

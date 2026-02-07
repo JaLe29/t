@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Layout } from '../components/Layout';
+import { PageWrapper } from '../components/PageWrapper';
 import { ConfirmModal } from '../components/ui/ConfirmModal';
 import { Dropdown } from '../components/ui/Dropdown';
 import { Input } from '../components/ui/Input';
@@ -100,7 +101,7 @@ export const GameAccountsPage = () => {
 
 	return (
 		<Layout>
-			<div className="p-6 max-w-2xl mx-auto">
+			<PageWrapper maxWidth="2xl">
 				<h1 className="text-3xl font-bold text-gray-900 mb-6">Game Accounts</h1>
 
 				{/* Existing Accounts List */}
@@ -123,7 +124,9 @@ export const GameAccountsPage = () => {
 											className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
 										>
 											<div className="flex-1">
-												<div className="font-medium text-gray-900">{account.gameworld.name}</div>
+												<div className="font-medium text-gray-900">
+													{account.gameworld.name}
+												</div>
 												<div className="text-sm text-gray-600 mt-1 flex items-center gap-2">
 													<span>Player: {account.playerName || 'Unknown'}</span>
 													{'playerTribeId' in account && account.playerTribeId && (
@@ -219,17 +222,15 @@ export const GameAccountsPage = () => {
 																}}
 															>
 																<span>{player.name}</span>
-																{player.tribeId && <NationIcon tribeId={player.tribeId} size="md" />}
+																{player.tribeId && (
+																	<NationIcon tribeId={player.tribeId} size="md" />
+																)}
 															</li>
 														))}
 													</ul>
 												);
 											}
-											return (
-												<div className="p-3 text-sm text-gray-500">
-													No players found
-												</div>
-											);
+											return <div className="p-3 text-sm text-gray-500">No players found</div>;
 										})()}
 									</div>
 								)}
@@ -251,23 +252,23 @@ export const GameAccountsPage = () => {
 						</button>
 					</form>
 				</div>
-			</div>
 
-			{/* Delete Confirmation Modal */}
-			<ConfirmModal
-				isOpen={deleteModalOpen}
-				onClose={() => {
-					setDeleteModalOpen(false);
-					setAccountToDelete(null);
-				}}
-				onConfirm={handleDeleteConfirm}
-				title="Delete Account"
-				message="Are you sure you want to delete this account? This action cannot be undone."
-				confirmText="Delete"
-				cancelText="Cancel"
-				confirmVariant="danger"
-				isLoading={deleteAccount.isPending}
-			/>
+				{/* Delete Confirmation Modal */}
+				<ConfirmModal
+					isOpen={deleteModalOpen}
+					onClose={() => {
+						setDeleteModalOpen(false);
+						setAccountToDelete(null);
+					}}
+					onConfirm={handleDeleteConfirm}
+					title="Delete Account"
+					message="Are you sure you want to delete this account? This action cannot be undone."
+					confirmText="Delete"
+					cancelText="Cancel"
+					confirmVariant="danger"
+					isLoading={deleteAccount.isPending}
+				/>
+			</PageWrapper>
 		</Layout>
 	);
 };

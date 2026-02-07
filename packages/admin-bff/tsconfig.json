@@ -1,0 +1,15 @@
+{
+	"extends": "./tsconfig.build.json",
+	"references": [
+		{
+			"path": "../db/tsconfig.build.json"
+		},
+		{
+			"path": "../backend-shared/tsconfig.build.json"
+		}
+	],
+	"exclude": [
+		".yarn/*",
+		"**/dist"
+	]
+}

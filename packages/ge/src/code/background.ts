@@ -1,5 +1,35 @@
 // Background service worker - processes API responses
 import { payloadService } from './code/service/payload.service';
+import { playerService } from './code/service/player.service';
+
+function updateBadge(tabId?: number) {
+	if (tabId !== undefined) {
+		chrome.tabs.get(tabId, tab => {
+			if (tab.url?.includes('kingdoms.com')) {
+				chrome.action.setBadgeText({ text: '●', tabId });
+				chrome.action.setBadgeBackgroundColor({ color: '#00BC00', tabId });
+			} else {
+				chrome.action.setBadgeText({ text: '●', tabId });
+				chrome.action.setBadgeBackgroundColor({ color: '#ef4444', tabId });
+			}
+		});
+	} else {
+		// Update for all tabs
+		chrome.tabs.query({}, tabs => {
+			tabs.forEach(tab => {
+				if (tab.id !== undefined) {
+					if (tab.url?.includes('kingdoms.com')) {
+						chrome.action.setBadgeText({ text: '●', tabId: tab.id });
+						chrome.action.setBadgeBackgroundColor({ color: '#00BC00', tabId: tab.id });
+					} else {
+						chrome.action.setBadgeText({ text: '●', tabId: tab.id });
+						chrome.action.setBadgeBackgroundColor({ color: '#ef4444', tabId: tab.id });
+					}
+				}
+			});
+		});
+	}
+}
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	if (changeInfo.status === 'complete' && tab.url?.includes('kingdoms.com')) {
@@ -7,6 +37,31 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 			injectFetchInterceptor(tabId);
 		}, 1000);
 	}
+	// Update badge when tab URL changes
+	if (changeInfo.url || changeInfo.status === 'complete') {
+		updateBadge(tabId);
+	}
+});
+
+chrome.tabs.onActivated.addListener(activeInfo => {
+	updateBadge(activeInfo.tabId);
+});
+
+// Clean up player data when tab is closed
+chrome.tabs.onRemoved.addListener(tabId => {
+	playerService.clearCurrentPlayer(tabId).catch(error => {
+		console.error('Failed to clear player data for closed tab:', error);
+	});
+});
+
+// Initialize badge on extension startup
+chrome.runtime.onStartup.addListener(() => {
+	updateBadge();
+});
+
+// Also update badge when extension is installed/enabled
+chrome.runtime.onInstalled.addListener(() => {
+	updateBadge();
 });
 
 chrome.runtime.onMessage.addListener((message, sender) => {
@@ -19,6 +74,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 			status: message.status,
 			data: message.data,
 			method: message.method,
+			tabId: sender.tab?.id,
 		});
 	}
 	if (message.type === 'API_RESPONSE_TEXT') {
@@ -27,6 +83,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 			status: message.status,
 			data: message.data,
 			method: message.method,
+			tabId: sender.tab?.id,
 		});
 	}
 });
