@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Layout } from '../components/Layout';
 import { Button } from '../components/ui/Button';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
 import { Input } from '../components/ui/Input';
@@ -57,11 +58,12 @@ export const ProfilePage = () => {
 	};
 
 	return (
-		<div className="p-8 max-w-4xl">
-			<div className="mb-8">
-				<h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Settings</h1>
-				<p className="text-gray-600">Manage your account settings</p>
-			</div>
+		<Layout>
+			<div className="p-8 max-w-4xl mx-auto">
+				<div className="mb-8">
+					<h1 className="text-3xl font-bold text-gray-900 mb-2">Profile Settings</h1>
+					<p className="text-gray-600">Manage your account settings</p>
+				</div>
 
 			{/* Update Name */}
 			<div className="mb-8">
@@ -166,6 +168,7 @@ export const ProfilePage = () => {
 					</div>
 				</div>
 			)}
-		</div>
+			</div>
+		</Layout>
 	);
 };

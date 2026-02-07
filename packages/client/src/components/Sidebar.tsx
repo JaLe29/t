@@ -15,6 +15,10 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 	const location = useLocation();
 	const { data: session } = useSession();
 	const [isGameAccountMenuOpen, setIsGameAccountMenuOpen] = useState(false);
+	const [isUnitsMenuOpen, setIsUnitsMenuOpen] = useState(() => {
+		// Auto-expand if on units page
+		return location.pathname.startsWith('/units');
+	});
 	const gameAccountMenuRef = useRef<HTMLDivElement>(null);
 
 	const { activeAccountId, setActiveAccountId } = useGameAccountStore();
@@ -64,9 +68,23 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 		}
 	}, [accounts, activeAccountId, setActiveAccountId]);
 
+	// Auto-expand Units menu when on units page
+	useEffect(() => {
+		if (location.pathname.startsWith('/units')) {
+			setIsUnitsMenuOpen(true);
+		}
+	}, [location.pathname]);
+
 	const activeAccount = accounts?.find(acc => acc.id === activeAccountId);
 
-	const isActive = (path: string) => location.pathname === path;
+	const isActive = (path: string) => {
+		if (path === '/units') {
+			return location.pathname.startsWith('/units');
+		}
+		return location.pathname === path;
+	};
+
+	const isUnitsSubActive = (path: string) => location.pathname === path;
 
 	// Mobile backdrop with fade animation
 	const backdrop = (
@@ -257,30 +275,72 @@ export const Sidebar = ({ isOpen, onToggle, onClose }: SidebarProps) => {
 											</svg>
 											Game Accounts
 										</Link>
-										<Link
-											to="/units"
-											className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-												isActive('/units')
-													? 'bg-primary/10 text-primary'
-													: 'text-gray-700 hover:bg-gray-50'
-											}`}
-										>
-											<svg
-												className="w-5 h-5"
-												fill="none"
-												stroke="currentColor"
-												viewBox="0 0 24 24"
-												aria-hidden="true"
+										{/* Units with submenu */}
+										<div>
+											<button
+												type="button"
+												onClick={() => setIsUnitsMenuOpen(!isUnitsMenuOpen)}
+												className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+													isActive('/units')
+														? 'bg-primary/10 text-primary'
+														: 'text-gray-700 hover:bg-gray-50'
+												}`}
 											>
-												<path
-													strokeLinecap="round"
-													strokeLinejoin="round"
-													strokeWidth={2}
-													d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-												/>
-											</svg>
-											Units
-										</Link>
+												<svg
+													className="w-5 h-5"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+													aria-hidden="true"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														strokeWidth={2}
+														d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+													/>
+												</svg>
+												<span className="flex-1 text-left">Units</span>
+												<svg
+													className={`w-4 h-4 transition-transform ${isUnitsMenuOpen ? 'rotate-90' : ''}`}
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+													aria-hidden="true"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														strokeWidth={2}
+														d="M9 5l7 7-7 7"
+													/>
+												</svg>
+											</button>
+											{isUnitsMenuOpen && (
+												<div className="ml-4 mt-1 space-y-1">
+													<Link
+														to="/units/overview"
+														className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+															isUnitsSubActive('/units/overview')
+																? 'bg-primary/10 text-primary font-medium'
+																: 'text-gray-600 hover:bg-gray-50'
+														}`}
+													>
+														<span>Overview</span>
+													</Link>
+													<Link
+														to="/units/history"
+														className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+															isUnitsSubActive('/units/history')
+																? 'bg-primary/10 text-primary font-medium'
+																: 'text-gray-600 hover:bg-gray-50'
+														}`}
+													>
+														<span>History</span>
+													</Link>
+												</div>
+											)}
+										</div>
 									</div>
 								</div>
 

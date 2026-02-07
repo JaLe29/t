@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { AuthGuard } from './components/AuthGuard';
 import { GameAccountsPage } from './pages/GameAccountsPage';
 import { HomePage } from './pages/HomePage';
@@ -9,6 +9,8 @@ import { ProfilePage } from './pages/ProfilePage';
 import { RegisterPage } from './pages/RegisterPage';
 import { TokensPage } from './pages/TokensPage';
 import { UnitsPage } from './pages/UnitsPage';
+import { UnitsOverviewPage } from './pages/UnitsOverviewPage';
+import { UnitsHistoryPage } from './pages/UnitsHistoryPage';
 import { trpc, trpcClient } from './utils/trpc';
 
 const queryClient = new QueryClient({
@@ -68,6 +70,20 @@ export const App: React.FC = () => {
 					<UnitsPage />
 				</AuthGuard>
 			),
+			children: [
+				{
+					index: true,
+					element: <Navigate to="/units/overview" replace />,
+				},
+				{
+					path: 'overview',
+					element: <UnitsOverviewPage />,
+				},
+				{
+					path: 'history',
+					element: <UnitsHistoryPage />,
+				},
+			],
 		},
 		{
 			path: '*',
